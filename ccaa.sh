@@ -5,7 +5,7 @@
 
 #导入环境变量
 
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
 #安装Aria2
@@ -15,6 +15,14 @@ function install_aria2(){
 	yum -y install curl
 	yum -y install epel-release
 	yum -y install aria2
+	#验证aria2是否安装成功，如果没有换rpm安装
+	if [ ! -f "/usr/bin/aria2c" ];then
+		wget -c http://soft.xiaoz.org/linux/aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
+		tar jxvf aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
+		cd aria2-1.34.0-linux-gnu-64bit-build1
+		make install
+		cd ..
+	fi
 }
 #安装caddy
 function install_caddy(){
@@ -131,6 +139,7 @@ function cleanup(){
 	rm -rf *.txt
 	#rm -rf *.conf
 	rm -rf init
+	rm -rf aria2-1.34.0*
 }
 
 #卸载
@@ -139,6 +148,9 @@ function uninstall(){
 	kill -9 $(pgrep 'aria2c')
 	kill -9 $(pgrep 'caddy')
 
+	#卸载Aria2
+	yum -y remove aria2
+
 	#删除服务
 	systemctl disable caddy.service
 	rm -rf /lib/systemd/system/caddy.service
@@ -146,9 +158,10 @@ function uninstall(){
 	rm -rf /etc/ccaa
 	rm -rf /usr/sbin/caddy
 	rm -rf /usr/sbin/ccaa
+	rm -rf /usr/bin/aria2c
 
-	#卸载Aria2
-	yum -y remove aria2
+	rm -rf /usr/share/man/man1/aria2c.1
+	rm -rf /etc/ssl/certs/ca-certificates.crt
 
 	#删除端口
 	if [ -e "/etc/sysconfig/iptables" ]
