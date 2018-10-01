@@ -26,10 +26,10 @@ function install_caddy(){
 	mv caddy /usr/sbin/
 	chmod +x /usr/sbin/caddy
 	#添加服务
-	mv init/linux-systemd/caddy.service /lib/systemd/system
-	chmod +x /lib/systemd/system/caddy.service
+	#mv init/linux-systemd/caddy.service /lib/systemd/system
+	#chmod +x /lib/systemd/system/caddy.service
 	#开机启动
-	systemctl enable caddy.service
+	#systemctl enable caddy.service
 }
 
 #处理配置文件
@@ -41,6 +41,8 @@ function dealconf(){
 	touch /etc/ccaa/caddy.log
 	cp aria2.conf /etc/ccaa/
 	cp caddy.conf /etc/ccaa/
+	cp upbt.sh /etc/ccaa/
+	chmod +x /etc/ccaa/upbt.sh
 	chmod +x ccaa
 	cp ccaa /usr/sbin
 }
@@ -65,10 +67,31 @@ function chk_firewall() {
 #设置账号密码
 function setting(){
 	echo '-------------------------------------------------------------'
-	read -p "设置下载路径（请填写绝对地址，如/data/aria2）:" downpath
-	read -p "设置Aria2密码(字母或数字组合，不要含有特殊字符):" secret
+	read -p "设置下载路径（请填写绝对地址，默认/data/ccaaDown）:" downpath
+	read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
+	#如果Aria2密钥为空
+	while [ -z "${secret}" ]
+	do
+		read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
+	done
+	
 	read -p "设置Caddy用户名:" caddyuser
+	while [ -z "${caddyuser}" ]
+	do
+		read -p "设置Caddy用户名:" caddyuser
+	done
+	
 	read -p "设置Caddy密码:" caddypass
+	while [ -z "${caddypass}" ]
+	do
+		read -p "设置Caddy密码:" caddypass
+	done
+
+	#如果下载路径为空，设置默认下载路径
+	if [ -z "${downpath}" ]
+	then
+		downpath='/data/ccaaDown'
+	fi
 
 	#执行替换操作
 	mkdir -p ${downpath}
@@ -76,28 +99,38 @@ function setting(){
 	sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf
 	sed -i "s/username/${caddyuser}/g" /etc/ccaa/caddy.conf
 	sed -i "s/password/${caddypass}/g" /etc/ccaa/caddy.conf
-	sed -i "s%/home%${downpath}%g" /etc/ccaa/caddy.conf
+	#sed -i "s%/home%${downpath}%g" /etc/ccaa/caddy.conf
 	sed -i "s%/admin%/admin ${downpath}%g" /etc/ccaa/caddy.conf
+	#更新tracker
+	bash ./upbt.sh
 
 	#安装AriaNg
 	wget http://soft.xiaoz.org/website/AriaNg.zip
 	unzip AriaNg.zip
-	cp -a AriaNg ${downpath}/AriaNg
+	cp -a AriaNg /etc/ccaa
 
 	#启动服务
 	nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /etc/ccaa/aria2.log 2>&1 &
 	nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
 
 	#获取ip
-	osip=$(curl -s https://api.ip.sb/ip)
+	osip=$(curl -4s https://api.ip.sb/ip)
 
 	echo '-------------------------------------------------------------'
-	echo "大功告成，请访问: http://${osip}:6080/AriaNg/"
+	echo "大功告成，请访问: http://${osip}:6080/"
 	echo '用户名:' ${caddyuser}
 	echo '密码:' ${caddypass}
 	echo 'Aria2 RPC 密钥:' ${secret}
-	echo '需要帮助请访问:'
+	echo '帮助文档: http://doc.xiaoz.top/#/ccaa/ （必看）' 
 	echo '-------------------------------------------------------------'
+}
+#清理工作
+function cleanup(){
+	rm -rf *.zip
+	rm -rf *.gz
+	rm -rf *.txt
+	#rm -rf *.conf
+	rm -rf init
 }
 
 #卸载
@@ -143,7 +176,7 @@ echo "------------------------------------------------"
 echo "CentOS 7 + Caddy + Aria2 + AriaNg一键安装脚本，简称CCAA"
 echo "1) 安装CCAA"
 echo "2) 卸载CCAA"
-#echo "3) 更新"
+echo "3) 更新bt-tracker"
 echo "q) 退出！"
 read -p ":" istype
 case $istype in
@@ -153,16 +186,13 @@ case $istype in
     	dealconf
     	chk_firewall
     	setting
+    	cleanup
     ;;
     2) 
     	uninstall
     ;;
     3) 
-    	#执行卸载函数
-    	uninstall
-    	#删除端口
-    	DelPort
-    	echo 'Uninstall complete.'
+    	upbt
     ;;
     q) 
     	exit

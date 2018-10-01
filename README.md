@@ -4,28 +4,34 @@ CentOS + Caddy + Aria2 + AriaNg，实现离线下载、文件管理、在线播�
 
 
 
+- Aria2 提供离线下载
+- AriaNg为Aria2 提供WEB界面
+- Caddy filemanager提供文件管理
+
+
+
 ### 主要功能
 
-* CentOS 一键安装Caddy + Aria2 + AriaNg
-* Aria2 提供离线下载
-* AriaNg提供WEB界面
-* Caddy filemanager提供文件管理
+* 支持HTTP/HTTPS/FTP/BT/磁力链接等离线下载，断点续传等
+* 文件管理、视频在线播放
+* 完善的帮助文档
 
 ### 环境要求
 
-* CentOS 6+ X64 (推荐使用CentOS 7)
+* CentOS 6+ X64 (建议使用CentOS 7)
+* 暂不支持其它系统、暂不支持其它系统、暂不支持其它系统
 
-### 安装
+### 安装CCAA
 
-```bash
-yum -y install wget unzip curl
-wget https://github.com/helloxz/ccaa/archive/master.zip
-unzip master.zip && cd ccaa-master && sh ccaa.sh
-```
+请参考帮助文档：[http://doc.xiaoz.top/#/ccaa/](http://doc.xiaoz.top/#/ccaa/)
+
+### 部分截图
+
+![](https://imgurl.org/upload/1810/e8bf5842058b46c5.png)
 
 
 
-### 鸣谢
+![](https://imgurl.org/upload/1810/1180fb03eb3117ce.png)
 
 
 
@@ -34,3 +40,7 @@ unzip master.zip && cd ccaa-master && sh ccaa.sh
 * Blog: [https://www.xiaoz.me/](https://www.xiaoz.me/)
 * QQ: 337003006
 * 技术交流群: 147687134
+
+### 请我喝一杯咖啡
+
+![](https://imgurl.org/upload/1712/cb349aa4a1b95997.png)
