@@ -1,10 +1,9 @@
 #!/bin/bash
 #####	一键安装Caddy + Aria2 + AriaNg		#####
 #####	作者：xiaoz.me						#####
-#####	更新时间：2018-09-28				#####
+#####	更新时间：2018-10-02				#####
 
 #导入环境变量
-
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 

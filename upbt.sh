@@ -3,7 +3,8 @@
 #####	作者：xiaoz.me						#####
 #####	更新时间：2018-09-28				#####
 
-PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin
+#导入环境变量
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
 function up_tracker(){

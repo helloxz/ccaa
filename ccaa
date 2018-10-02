@@ -3,6 +3,10 @@
 #####		Author:xiaoz.me			#####
 #####		Update:2017-12-08		#####
 
+#导入环境变量
+PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
+export PATH
+
 aria2pid=$(pgrep 'aria2c')
 caddypid=$(pgrep 'caddy')
 
