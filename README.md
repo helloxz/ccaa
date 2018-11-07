@@ -23,7 +23,7 @@ CentOS + Caddy + Aria2 + AriaNg，实现离线下载、文件管理、在线播�
 
 ### 安装CCAA
 
-请参考帮助文档：[http://doc.xiaoz.top/#/ccaa/](http://doc.xiaoz.top/#/ccaa/)
+请参考帮助文档：[https://doc.xiaoz.me/#/ccaa/](https://doc.xiaoz.me/#/ccaa/)
 
 ### 部分截图
 
