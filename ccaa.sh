@@ -204,7 +204,7 @@ case $istype in
     	uninstall
     ;;
     3) 
-    	upbt
+    	bash ./upbt.sh
     ;;
     q) 
     	exit
