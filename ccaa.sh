@@ -128,7 +128,7 @@ function setting(){
 	echo '用户名:' ${caddyuser}
 	echo '密码:' ${caddypass}
 	echo 'Aria2 RPC 密钥:' ${secret}
-	echo '帮助文档: http://doc.xiaoz.me/#/ccaa/ （必看）' 
+	echo '帮助文档: https://doc.xiaoz.me/#/ccaa/ （必看）' 
 	echo '-------------------------------------------------------------'
 }
 #清理工作
