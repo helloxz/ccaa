@@ -7,21 +7,25 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
+#安装curl
+function install_curl(){
+	if [ -e "/usr/bin/yum" ]
+	then
+		yum -y install curl
+	else
+		sudo apt-get install -y curl
+	fi
+}
 #安装Aria2
 function install_aria2(){
-	#更新软件
 	#yum -y update
 	yum -y install curl
-	yum -y install epel-release
-	yum -y install aria2
-	#验证aria2是否安装成功，如果没有换rpm安装
-	if [ ! -f "/usr/bin/aria2c" ];then
-		wget -c http://soft.xiaoz.org/linux/aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
-		tar jxvf aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
-		cd aria2-1.34.0-linux-gnu-64bit-build1
-		make install
-		cd ..
-	fi
+	#安装aria2静态编译版本，来源于https://github.com/q3aql/aria2-static-builds/
+	wget -c http://soft.xiaoz.org/linux/aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
+	tar jxvf aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
+	cd aria2-1.34.0-linux-gnu-64bit-build1
+	make install
+	cd ..
 }
 #安装caddy
 function install_caddy(){
@@ -54,7 +58,7 @@ function dealconf(){
 	cp ccaa /usr/sbin
 }
 #自动放行端口
-function chk_firewall() {
+function chk_firewall(){
 	if [ -e "/etc/sysconfig/iptables" ]
 	then
 		iptables -I INPUT -p tcp --dport 6080 -j ACCEPT
@@ -63,12 +67,44 @@ function chk_firewall() {
 		iptables -I INPUT -p tcp --dport 51413 -j ACCEPT
 		service iptables save
 		service iptables restart
-	else
+	elif [ -e "/etc/firewalld/zones/public.xml" ]
+	then
 		firewall-cmd --zone=public --add-port=6080/tcp --permanent
 		firewall-cmd --zone=public --add-port=6800/tcp --permanent
 		firewall-cmd --zone=public --add-port=6998/tcp --permanent
 		firewall-cmd --zone=public --add-port=51413/tcp --permanent
 		firewall-cmd --reload
+	elif [ -e "/etc/ufw/before.rules" ]
+	then
+		sudo ufw allow 6080/tcp
+		sudo ufw allow 6800/tcp
+		sudo ufw allow 6998/tcp
+		sudo ufw allow 51413/tcp
+	fi
+}
+#删除端口
+function del_post() {
+	if [ -e "/etc/sysconfig/iptables" ]
+	then
+		sed -i '/^.*6080.*/'d /etc/sysconfig/iptables
+		sed -i '/^.*6800.*/'d /etc/sysconfig/iptables
+		sed -i '/^.*6998.*/'d /etc/sysconfig/iptables
+		sed -i '/^.*51413.*/'d /etc/sysconfig/iptables
+		service iptables save
+		service iptables restart
+	elif [ -e "/etc/firewalld/zones/public.xml" ]
+	then
+		firewall-cmd --zone=public --remove-port=6080/tcp --permanent
+		firewall-cmd --zone=public --remove-port=6800/tcp --permanent
+		firewall-cmd --zone=public --remove-port=6998/tcp --permanent
+		firewall-cmd --zone=public --remove-port=51413/tcp --permanent
+		firewall-cmd --reload
+	elif [ -e "/etc/ufw/before.rules" ]
+	then
+		sudo ufw delete 6080/tcp
+		sudo ufw delete 6800/tcp
+		sudo ufw delete 6998/tcp
+		sudo ufw delete 51413/tcp
 	fi
 }
 #设置账号密码
@@ -147,9 +183,6 @@ function uninstall(){
 	kill -9 $(pgrep 'aria2c')
 	kill -9 $(pgrep 'caddy')
 
-	#卸载Aria2
-	yum -y remove aria2
-
 	#删除服务
 	systemctl disable caddy.service
 	rm -rf /lib/systemd/system/caddy.service
@@ -161,23 +194,8 @@ function uninstall(){
 
 	rm -rf /usr/share/man/man1/aria2c.1
 	rm -rf /etc/ssl/certs/ca-certificates.crt
-
 	#删除端口
-	if [ -e "/etc/sysconfig/iptables" ]
-	then
-		sed -i '/^.*6080.*/'d /etc/sysconfig/iptables
-		sed -i '/^.*6800.*/'d /etc/sysconfig/iptables
-		sed -i '/^.*6998.*/'d /etc/sysconfig/iptables
-		sed -i '/^.*51413.*/'d /etc/sysconfig/iptables
-		service iptables save
-		service iptables restart
-	else
-		firewall-cmd --zone=public --remove-port=6080/tcp --permanent
-		firewall-cmd --zone=public --remove-port=6800/tcp --permanent
-		firewall-cmd --zone=public --remove-port=6998/tcp --permanent
-		firewall-cmd --zone=public --remove-port=51413/tcp --permanent
-		firewall-cmd --reload
-	fi
+	del_post
 	echo "------------------------------------------------"
 	echo '卸载完成！'
 	echo "------------------------------------------------"
@@ -185,7 +203,7 @@ function uninstall(){
 
 #选择安装方式
 echo "------------------------------------------------"
-echo "CentOS 7 + Caddy + Aria2 + AriaNg一键安装脚本，简称CCAA"
+echo "Linux + Caddy + Aria2 + AriaNg一键安装脚本(CCAA)"
 echo "1) 安装CCAA"
 echo "2) 卸载CCAA"
 echo "3) 更新bt-tracker"
@@ -193,11 +211,12 @@ echo "q) 退出！"
 read -p ":" istype
 case $istype in
     1) 
-    	install_aria2
-    	install_caddy
-    	dealconf
-    	chk_firewall
-    	setting
+    	install_curl && \
+    	install_aria2 && \
+    	install_caddy && \
+    	dealconf && \
+    	chk_firewall && \
+    	setting && \
     	cleanup
     ;;
     2) 
