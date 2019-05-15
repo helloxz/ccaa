@@ -7,19 +7,18 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
-#安装curl
-function install_curl(){
+#安装之前的准备
+function setout(){
 	if [ -e "/usr/bin/yum" ]
 	then
-		yum -y install curl
+		yum -y install curl gcc gcc+ make
 	else
-		sudo apt-get install -y curl
+		sudo apt-get install -y curl gcc gcc+ make
 	fi
 }
 #安装Aria2
 function install_aria2(){
 	#yum -y update
-	yum -y install curl
 	#安装aria2静态编译版本，来源于https://github.com/q3aql/aria2-static-builds/
 	wget -c http://soft.xiaoz.org/linux/aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
 	tar jxvf aria2-1.34.0-linux-gnu-64bit-build1.tar.bz2
@@ -172,9 +171,9 @@ function cleanup(){
 	rm -rf *.zip
 	rm -rf *.gz
 	rm -rf *.txt
+	rm -rf aria2-1.34*
 	#rm -rf *.conf
 	rm -rf init
-	rm -rf aria2-1.34.0*
 }
 
 #卸载
@@ -211,7 +210,7 @@ echo "q) 退出！"
 read -p ":" istype
 case $istype in
     1) 
-    	install_curl && \
+    	setout && \
     	install_aria2 && \
     	install_caddy && \
     	dealconf && \
