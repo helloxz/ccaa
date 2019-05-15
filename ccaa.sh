@@ -185,8 +185,8 @@ function uninstall(){
 	kill -9 $(pgrep 'caddy')
 
 	#删除服务
-	systemctl disable caddy.service
-	rm -rf /lib/systemd/system/caddy.service
+	#systemctl disable caddy.service
+	#rm -rf /lib/systemd/system/caddy.service
 	#删除文件
 	rm -rf /etc/ccaa
 	rm -rf /usr/sbin/caddy
