@@ -11,7 +11,7 @@ export PATH
 function setout(){
 	if [ -e "/usr/bin/yum" ]
 	then
-		yum -y install curl gcc gcc+ make
+		yum -y install curl gcc gcc+ make bzip2
 	else
 		#更新软件，否则可能make命令无法安装
 		sudo apt-get update
