@@ -14,7 +14,7 @@ Linux + Caddy + Aria2 + AriaNg，实现离线下载、文件管理、在线播�
 
 ### 环境要求
 
-* CentOS 6+/Debian 8+/Ubuntu 16+
+* CentOS 6+/Debian 8+/Ubuntu 14+
 * 操作系统要求64位
 
 ### 安装CCAA
