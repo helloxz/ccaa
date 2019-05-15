@@ -1,7 +1,7 @@
 #!/bin/bash
 #####	一键安装Caddy + Aria2 + AriaNg		#####
 #####	作者：xiaoz.me						#####
-#####	更新时间：2018-10-02				#####
+#####	更新时间：2019-05-15				#####
 
 #导入环境变量
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
@@ -163,7 +163,7 @@ function setting(){
 	echo '用户名:' ${caddyuser}
 	echo '密码:' ${caddypass}
 	echo 'Aria2 RPC 密钥:' ${secret}
-	echo '帮助文档: https://doc.xiaoz.me/#/ccaa/ （必看）' 
+	echo '帮助文档: https://dwz.ovh/ccaa （必看）' 
 	echo '-------------------------------------------------------------'
 }
 #清理工作
@@ -190,6 +190,9 @@ function uninstall(){
 	rm -rf /usr/sbin/caddy
 	rm -rf /usr/sbin/ccaa
 	rm -rf /usr/bin/aria2c
+	rm -rf aria2-1.*
+	rm -rf AriaNg*
+	
 
 	rm -rf /usr/share/man/man1/aria2c.1
 	rm -rf /etc/ssl/certs/ca-certificates.crt
