@@ -13,7 +13,9 @@ function setout(){
 	then
 		yum -y install curl gcc gcc+ make
 	else
-		sudo apt-get install -y curl gcc gcc+ make
+		#更新软件，否则可能make命令无法安装
+		sudo apt-get update
+		sudo apt-get install -y curl make
 	fi
 }
 #安装Aria2
@@ -213,7 +215,7 @@ echo "q) 退出！"
 read -p ":" istype
 case $istype in
     1) 
-    	setout && \
+    	setout
     	install_aria2 && \
     	install_caddy && \
     	dealconf && \
