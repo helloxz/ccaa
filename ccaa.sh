@@ -32,21 +32,7 @@ function install_aria2(){
 	make install
 	cd ..
 }
-#安装caddy
-function install_caddy(){
-	#一键安装https://caddyserver.com/download/linux/amd64?plugins=http.filemanager&license=personal&telemetry=off
-	#curl https://getcaddy.com | bash -s personal http.filemanager
-	#安装caddy
-	wget http://soft.xiaoz.org/linux/caddy_v0.11.0_linux_amd64_custom_personal.tar.gz -O caddy.tar.gz
-	tar -zxvf caddy.tar.gz
-	mv caddy /usr/sbin/
-	chmod +x /usr/sbin/caddy
-	#添加服务
-	#mv init/linux-systemd/caddy.service /lib/systemd/system
-	#chmod +x /lib/systemd/system/caddy.service
-	#开机启动
-	#systemctl enable caddy.service
-}
+
 #安装File Browser文件管理器
 function install_file_browser(){
 	#下载File Browser
@@ -157,7 +143,7 @@ function setting(){
 	sed -i "s/server_ip/${osip}/g" /etc/ccaa/index.html
 	
 	#更新tracker
-	/etc/ccaa/upbt.sh
+	bash /etc/ccaa/upbt.sh
 
 	#安装AriaNg
 	cp ccaa-master/ccaa_web /usr/sbin/
@@ -166,9 +152,9 @@ function setting(){
 	#启动服务
 	nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
 	#nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
-	nohup /usr/sbin/ccaa_web /var/log/ccaa_web.log 2>&1 &
+	nohup /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
 	#运行filebrowser
-	nohup filebrowser -c /etc/ccaa/config.json &
+	nohup filebrowser -c /etc/ccaa/config.json > /var/log/filebrowser1.log &
 
 
 	echo '-------------------------------------------------------------'
@@ -192,6 +178,7 @@ function uninstall(){
 	#停止所有服务
 	kill -9 $(pgrep 'aria2c')
 	kill -9 $(pgrep 'ccaa_web')
+	kill -9 $(pgrep 'filebrowser')
 	#删除服务
 	#systemctl disable caddy.service
 	#rm -rf /lib/systemd/system/caddy.service
@@ -224,10 +211,10 @@ read -p ":" istype
 case $istype in
     1) 
     	setout
+    	chk_firewall
     	install_aria2 && \
     	install_file_browser && \
     	dealconf && \
-    	chk_firewall && \
     	setting && \
     	cleanup
     ;;
@@ -235,7 +222,7 @@ case $istype in
     	uninstall
     ;;
     3) 
-    	bash ./upbt.sh
+    	bash /etc/ccaa/upbt.sh
     ;;
     q) 
     	exit

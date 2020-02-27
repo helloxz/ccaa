@@ -1,30 +1,35 @@
 #!/bin/bash
 #####		CCAA管理脚本			#####
 #####		Author:xiaoz.me			#####
-#####		Update:2017-12-08		#####
+#####		Update:2020-02-27		#####
 
 #导入环境变量
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
 aria2pid=$(pgrep 'aria2c')
-caddypid=$(pgrep 'caddy')
+ccaa_web_pid=$(pgrep 'ccaa_web')
+filebrowser_pid=$(pgrep 'ccaa_web')
 
 case $1 in
 	'start')
-		nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /etc/ccaa/aria2.log 2>&1 &
-		nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
+		nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
+		nohup /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
+		nohup filebrowser -c /etc/ccaa/config.json > /var/log/filebrowser1.log &
 		exit
 	;;
 	'stop')
 		kill -9 ${aria2pid}
-		kill -9 ${caddypid}
+		kill -9 ${ccaa_web_pid}
+		kill -9 ${filebrowser_pid}
 	;;
 	'restart')
 		kill -9 ${aria2pid}
-		kill -9 ${caddypid}
-		nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /etc/ccaa/aria2.log 2>&1 &
-		nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
+		kill -9 ${ccaa_web_pid}
+		kill -9 ${filebrowser_pid}
+		nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
+		nohup /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
+		nohup filebrowser -c /etc/ccaa/config.json > /var/log/filebrowser1.log &
 		exit;
 	;;
 	'status')
