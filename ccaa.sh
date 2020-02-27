@@ -76,6 +76,7 @@ function chk_firewall(){
 	if [ -e "/etc/sysconfig/iptables" ]
 	then
 		iptables -I INPUT -p tcp --dport 6080 -j ACCEPT
+		iptables -I INPUT -p tcp --dport 6081 -j ACCEPT
 		iptables -I INPUT -p tcp --dport 6800 -j ACCEPT
 		iptables -I INPUT -p tcp --dport 6998 -j ACCEPT
 		iptables -I INPUT -p tcp --dport 51413 -j ACCEPT
@@ -84,6 +85,7 @@ function chk_firewall(){
 	elif [ -e "/etc/firewalld/zones/public.xml" ]
 	then
 		firewall-cmd --zone=public --add-port=6080/tcp --permanent
+		firewall-cmd --zone=public --add-port=6081/tcp --permanent
 		firewall-cmd --zone=public --add-port=6800/tcp --permanent
 		firewall-cmd --zone=public --add-port=6998/tcp --permanent
 		firewall-cmd --zone=public --add-port=51413/tcp --permanent
@@ -91,6 +93,7 @@ function chk_firewall(){
 	elif [ -e "/etc/ufw/before.rules" ]
 	then
 		sudo ufw allow 6080/tcp
+		sudo ufw allow 6081/tcp
 		sudo ufw allow 6800/tcp
 		sudo ufw allow 6998/tcp
 		sudo ufw allow 51413/tcp
@@ -101,6 +104,7 @@ function del_post() {
 	if [ -e "/etc/sysconfig/iptables" ]
 	then
 		sed -i '/^.*6080.*/'d /etc/sysconfig/iptables
+		sed -i '/^.*6081.*/'d /etc/sysconfig/iptables
 		sed -i '/^.*6800.*/'d /etc/sysconfig/iptables
 		sed -i '/^.*6998.*/'d /etc/sysconfig/iptables
 		sed -i '/^.*51413.*/'d /etc/sysconfig/iptables
@@ -109,6 +113,7 @@ function del_post() {
 	elif [ -e "/etc/firewalld/zones/public.xml" ]
 	then
 		firewall-cmd --zone=public --remove-port=6080/tcp --permanent
+		firewall-cmd --zone=public --remove-port=6081/tcp --permanent
 		firewall-cmd --zone=public --remove-port=6800/tcp --permanent
 		firewall-cmd --zone=public --remove-port=6998/tcp --permanent
 		firewall-cmd --zone=public --remove-port=51413/tcp --permanent
@@ -116,6 +121,7 @@ function del_post() {
 	elif [ -e "/etc/ufw/before.rules" ]
 	then
 		sudo ufw delete 6080/tcp
+		sudo ufw delete 6081/tcp
 		sudo ufw delete 6800/tcp
 		sudo ufw delete 6998/tcp
 		sudo ufw delete 51413/tcp
@@ -138,12 +144,17 @@ function setting(){
 		downpath='/data/ccaaDown'
 	fi
 
+	#获取ip
+	osip=$(curl -4s https://api.ip.sb/ip)
+	
 	#执行替换操作
 	mkdir -p ${downpath}
 	sed -i "s%dir=%dir=${downpath}%g" /etc/ccaa/aria2.conf
 	sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf
 	#替换filebrowser读取路径
 	sed -i "s%ccaaDown%${downpath}%g" /etc/ccaa/config.json
+	#替换AriaNg服务器链接
+	sed -i "s/server_ip/${osip}/g" /etc/ccaa/index.html
 	
 	#更新tracker
 	/etc/ccaa/upbt.sh
@@ -155,12 +166,10 @@ function setting(){
 	#启动服务
 	nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
 	#nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
-	nohup /usr/sbin/ccaa_web &
+	nohup /usr/sbin/ccaa_web /var/log/ccaa_web.log 2>&1 &
 	#运行filebrowser
 	nohup filebrowser -c /etc/ccaa/config.json &
 
-	#获取ip
-	osip=$(curl -4s https://api.ip.sb/ip)
 
 	echo '-------------------------------------------------------------'
 	echo "大功告成，请访问: http://${osip}:6080/"
@@ -218,7 +227,7 @@ case $istype in
     	install_aria2 && \
     	install_file_browser && \
     	dealconf && \
-    	chk_firewall || \
+    	chk_firewall && \
     	setting && \
     	cleanup
     ;;
