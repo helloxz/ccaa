@@ -11,7 +11,7 @@ export PATH
 function setout(){
 	if [ -e "/usr/bin/yum" ]
 	then
-		yum -y install curl gcc gcc+ make bzip2
+		yum -y install curl gcc gcc+ make bzip2 gzip
 	else
 		#更新软件，否则可能make命令无法安装
 		sudo apt-get update
@@ -170,26 +170,23 @@ function setting(){
 }
 #清理工作
 function cleanup(){
-	rm -rf *.zip
-	rm -rf *.gz
-	rm -rf *.txt
-	rm -rf aria2-1.34*
+	cd
+	rm -rf ccaa_tmp
 	#rm -rf *.conf
-	rm -rf init
+	#rm -rf init
 }
 
 #卸载
 function uninstall(){
 	#停止所有服务
 	kill -9 $(pgrep 'aria2c')
-	kill -9 $(pgrep 'caddy')
 
 	#删除服务
 	#systemctl disable caddy.service
 	#rm -rf /lib/systemd/system/caddy.service
 	#删除文件
 	rm -rf /etc/ccaa
-	rm -rf /usr/sbin/caddy
+	rm -rf /usr/sbin/ccaa_web
 	rm -rf /usr/sbin/ccaa
 	rm -rf /usr/bin/aria2c
 	rm -rf aria2-1.*
@@ -219,7 +216,7 @@ case $istype in
     	install_aria2 && \
     	install_file_browser && \
     	dealconf && \
-    	chk_firewall || \
+    	chk_firewall && \
     	setting && \
     	cleanup
     ;;
