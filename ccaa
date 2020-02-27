@@ -39,7 +39,7 @@ case $1 in
 			else
 				echo '-----------------------------------------------'
 				echo "Aria2 is running,pid is ${aria2pid}."
-				echo "ccaa_web is running,pid is ${ccaa_web_pid}."
+				echo "AriaNg is running,pid is ${ccaa_web_pid}."
 				echo "Filebrowser is running,pid is ${filebrowser_pid}."
 				echo '-----------------------------------------------'
 		fi
