@@ -182,7 +182,7 @@ function cleanup(){
 function uninstall(){
 	#停止所有服务
 	kill -9 $(pgrep 'aria2c')
-
+	kill -9 $(pgrep 'ccaa_web')
 	#删除服务
 	#systemctl disable caddy.service
 	#rm -rf /lib/systemd/system/caddy.service
@@ -218,7 +218,7 @@ case $istype in
     	install_aria2 && \
     	install_file_browser && \
     	dealconf && \
-    	chk_firewall && \
+    	chk_firewall || \
     	setting && \
     	cleanup
     ;;
