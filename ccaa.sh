@@ -157,7 +157,7 @@ function setting(){
 	#nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
 	nohup /usr/sbin/ccaa_web &
 	#运行filebrowser
-	nohup filebrowser -c /etc/ccaa/config.json
+	nohup filebrowser -c /etc/ccaa/config.json &
 
 	#获取ip
 	osip=$(curl -4s https://api.ip.sb/ip)
