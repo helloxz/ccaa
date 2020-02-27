@@ -189,6 +189,9 @@ function uninstall(){
 	rm -rf /usr/bin/aria2c
 	rm -rf aria2-1.*
 	rm -rf AriaNg*
+
+	#删除filebrowser
+	rm -rf /usr/sbin/filebrowser
 	
 
 	rm -rf /usr/share/man/man1/aria2c.1
