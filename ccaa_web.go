@@ -1,18 +1,28 @@
 //使用golan实现一个简单的web来支持AriaNg访问
 package main
-import "net/http"
-import "fmt"
 
-func notfound(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "404 not found!")
+import (
+    "fmt"
+    "net/http"
+    "io/ioutil"
+)
+
+
+//统计流量
+func home_page(w http.ResponseWriter, r *http.Request) {
+	//读取AriaNg首页
+	bytes, err := ioutil.ReadFile("/etc/ccaa/index.html")
+    if err != nil {
+        fmt.Println("error : %s", err)
+        return
+    }
+
+	fmt.Fprintln(w, string(bytes))
 }
+
 func main() {
-    panic(http.ListenAndServe(":6080", http.FileServer(http.Dir("/etc/ccaa"))))
-    //敏感路径重定向
-    http.HandleFunc("/aria2.conf", notfound)
-    http.HandleFunc("/aria2.log", notfound)
-    http.HandleFunc("/aria2.session", notfound)
-    http.HandleFunc("/caddy.log", notfound)
-    http.HandleFunc("/config.json", notfound)
-    http.HandleFunc("/filebrowser.db", notfound)
+	//所有页面重定向到首页
+	http.HandleFunc("/", home_page)
+	
+    http.ListenAndServe(":6080", nil)
 }
