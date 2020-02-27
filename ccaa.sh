@@ -68,8 +68,8 @@ function dealconf(){
 	touch /var/log/aria2.log
 	#upbt增加执行权限
 	chmod +x /etc/ccaa/upbt.sh
-	chmod +x ccaa
-	cp ccaa /usr/sbin
+	chmod +x ccaa-master/ccaa
+	cp ccaa-master/ccaa /usr/sbin
 }
 #自动放行端口
 function chk_firewall(){
@@ -149,8 +149,8 @@ function setting(){
 	/etc/ccaa/upbt.sh
 
 	#安装AriaNg
-	cp ccaa_web /usr/sbin/
-	chmod +x ccaa_web
+	cp ccaa-master/ccaa_web /usr/sbin/
+	chmod +x ccaa-master/ccaa_web
 
 	#启动服务
 	nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
