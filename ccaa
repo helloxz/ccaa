@@ -44,6 +44,9 @@ case $1 in
 				echo '-----------------------------------------------'
 		fi
 	;;
+	'-v')
+		cat /etc/ccaa/version.txt
+	;;
 	*)
 		echo '参数错误！'
 		exit
