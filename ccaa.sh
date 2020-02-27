@@ -11,11 +11,11 @@ export PATH
 function setout(){
 	if [ -e "/usr/bin/yum" ]
 	then
-		yum -y install curl gcc gcc+ make bzip2 gzip
+		yum -y install curl gcc gcc+ make bzip2 gzip wget
 	else
 		#更新软件，否则可能make命令无法安装
 		sudo apt-get update
-		sudo apt-get install -y curl make
+		sudo apt-get install -y curl make bzip2 gzip wget
 	fi
 	#创建临时目录
 	mkdir ./ccaa_tmp
@@ -154,7 +154,7 @@ function setting(){
 	#nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
 	nohup /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
 	#运行filebrowser
-	nohup filebrowser -c /etc/ccaa/config.json > /var/log/filebrowser1.log &
+	nohup filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
 
 
 	echo '-------------------------------------------------------------'
