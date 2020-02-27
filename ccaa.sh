@@ -143,19 +143,21 @@ function setting(){
 	sed -i "s%dir=%dir=${downpath}%g" /etc/ccaa/aria2.conf
 	sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf
 	#替换filebrowser读取路径
-	sed -i "s/ccaaDown/${downpath}/g" /etc/ccaa/config.json
+	sed -i "s%ccaaDown%${downpath}%g" /etc/ccaa/config.json
 	
 	#更新tracker
 	/etc/ccaa/upbt.sh
 
 	#安装AriaNg
 	cp ccaa-master/ccaa_web /usr/sbin/
-	chmod +x ccaa-master/ccaa_web
+	chmod +x /usr/sbin/ccaa_web
 
 	#启动服务
 	nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
 	#nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
-	ccaa_web
+	nohup /usr/sbin/ccaa_web &
+	#运行filebrowser
+	nohup filebrowser -c /etc/ccaa/config.json
 
 	#获取ip
 	osip=$(curl -4s https://api.ip.sb/ip)
