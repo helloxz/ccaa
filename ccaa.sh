@@ -11,11 +11,11 @@ export PATH
 function setout(){
 	if [ -e "/usr/bin/yum" ]
 	then
-		yum -y install curl gcc gcc+ make bzip2 gzip wget
+		yum -y install curl gcc gcc+ make bzip2 gzip wget unzip
 	else
 		#更新软件，否则可能make命令无法安装
 		sudo apt-get update
-		sudo apt-get install -y curl make bzip2 gzip wget
+		sudo apt-get install -y curl make bzip2 gzip wget unzip
 	fi
 	#创建临时目录
 	mkdir ./ccaa_tmp
