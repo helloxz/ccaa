@@ -9,7 +9,7 @@ export PATH
 
 aria2pid=$(pgrep 'aria2c')
 ccaa_web_pid=$(pgrep 'ccaa_web')
-filebrowser_pid=$(pgrep 'ccaa_web')
+filebrowser_pid=$(pgrep 'filebrowser')
 
 case $1 in
 	'start')
@@ -45,7 +45,7 @@ case $1 in
 		fi
 	;;
 	'-v')
-		cat /etc/ccaa/version.txt
+		cat /etc/ccaa/version.txt && echo ''
 	;;
 	*)
 		echo '参数错误！'
