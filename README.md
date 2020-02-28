@@ -18,7 +18,7 @@
 * 支持的操作系统：CentOS 7-8、Debian 8-10、Ubuntu 16-18
 * 操作系统要求64位
 
-**虽然以上系统经过了基本测试，但不排除可能存着某些特殊情况无法安装，如果问题，请在Github Issues反馈**
+**虽然以上系统经过了基本测试，但不排除可能存着某些特殊情况无法安装，如有问题，请在Github Issues反馈**
 
 ### 安装CCAA
 
@@ -26,7 +26,7 @@
 ```
 bash <(curl -Lsk https://raw.githubusercontent.com/helloxz/ccaa/master/ccaa.sh)
 ```
-如果出现`-bash: curl: command not found`错误，说明`curl`命令没安装，请输入下面的命令先安装`curl`
+如果出现`-bash: curl: command not found`错误，说明`curl`命令没安装，请输入下面的命令先安装`curl`，再回过头来执行上面的命令再来一次。
 
 ```
 #Debian or Ubuntu
