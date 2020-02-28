@@ -189,32 +189,7 @@ function cleanup(){
 
 #卸载
 function uninstall(){
-	#停止所有服务
-	kill -9 $(pgrep 'aria2c')
-	kill -9 $(pgrep 'ccaa_web')
-	kill -9 $(pgrep 'filebrowser')
-	#删除服务
-	#systemctl disable caddy.service
-	#rm -rf /lib/systemd/system/caddy.service
-	#删除文件
-	rm -rf /etc/ccaa
-	rm -rf /usr/sbin/ccaa_web
-	rm -rf /usr/sbin/ccaa
-	rm -rf /usr/bin/aria2c
-	rm -rf aria2-1.*
-	rm -rf AriaNg*
-
-	#删除filebrowser
-	rm -rf /usr/sbin/filebrowser
-	
-
-	rm -rf /usr/share/man/man1/aria2c.1
-	rm -rf /etc/ssl/certs/ca-certificates.crt
-	#删除端口
-	del_post
-	echo "------------------------------------------------"
-	echo '卸载完成！'
-	echo "------------------------------------------------"
+	bash <(curl -Ls https://raw.githubusercontent.com/helloxz/ccaa/master/uninstall.sh)
 }
 
 #选择安装方式
