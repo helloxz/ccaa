@@ -189,7 +189,8 @@ function cleanup(){
 
 #卸载
 function uninstall(){
-	bash <(curl -Ls https://raw.githubusercontent.com/helloxz/ccaa/master/uninstall.sh)
+	wget -O ccaa-uninstall.sh https://raw.githubusercontent.com/helloxz/ccaa/master/uninstall.sh
+	bash ccaa-uninstall.sh
 }
 
 #选择安装方式
