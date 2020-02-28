@@ -202,7 +202,7 @@ function uninstall(){
 
 #选择安装方式
 echo "------------------------------------------------"
-echo "Linux + Caddy + Aria2 + AriaNg一键安装脚本(CCAA)"
+echo "Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA)"
 echo "1) 安装CCAA"
 echo "2) 卸载CCAA"
 echo "3) 更新bt-tracker"
