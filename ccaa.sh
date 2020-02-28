@@ -25,7 +25,7 @@ function check(){
 function setout(){
 	if [ -e "/usr/bin/yum" ]
 	then
-		yum -y install curl gcc gcc+ make bzip2 gzip wget unzip
+		yum -y install curl gcc make bzip2 gzip wget unzip tar
 	else
 		#更新软件，否则可能make命令无法安装
 		sudo apt-get update
