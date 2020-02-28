@@ -11,6 +11,13 @@ aria2pid=$(pgrep 'aria2c')
 ccaa_web_pid=$(pgrep 'ccaa_web')
 filebrowser_pid=$(pgrep 'filebrowser')
 
+#如果变量不存在
+if [ ! $1 ]
+	then
+	bash <(curl -Ls https://raw.githubusercontent.com/helloxz/ccaa/master/ccaa.sh)
+	exit
+fi
+
 case $1 in
 	'start')
 		nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &

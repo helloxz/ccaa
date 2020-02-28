@@ -7,6 +7,20 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
+#安装前的检查
+function check(){
+	echo '-------------------------------------------------------------'
+	if [ -e "/etc/ccaa" ]
+        then
+        echo 'CCAA已经安装，若需要重新安装，请先卸载再安装！'
+        echo '-------------------------------------------------------------'
+        exit
+	else
+	        echo '检测通过，即将开始安装。'
+	        echo '-------------------------------------------------------------'
+	fi
+}
+
 #安装之前的准备
 function setout(){
 	if [ -e "/usr/bin/yum" ]
@@ -213,6 +227,7 @@ echo "q) 退出！"
 read -p ":" istype
 case $istype in
     1) 
+    	check
     	setout
     	chk_firewall
     	install_aria2 && \
