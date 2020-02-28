@@ -34,11 +34,11 @@ function setout(){
 	#创建临时目录
 	cd
 	mkdir ./ccaa_tmp
-	#进入临时目录
-	cd ./ccaa_tmp
 }
 #安装Aria2
 function install_aria2(){
+	#进入临时目录
+	cd ./ccaa_tmp
 	#yum -y update
 	#安装aria2静态编译版本，来源于https://github.com/q3aql/aria2-static-builds/
 	wget -c https://github.com/q3aql/aria2-static-builds/releases/download/v1.35.0/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2
