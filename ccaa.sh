@@ -134,6 +134,8 @@ function del_post() {
 }
 #设置账号密码
 function setting(){
+	cd
+	cd ./ccaa_tmp
 	echo '-------------------------------------------------------------'
 	read -p "设置下载路径（请填写绝对地址，默认/data/ccaaDown）:" downpath
 	read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
@@ -163,7 +165,7 @@ function setting(){
 	
 	#更新tracker
 	bash /etc/ccaa/upbt.sh
-
+	
 	#安装AriaNg
 	cp ccaa-master/ccaa_web /usr/sbin/
 	chmod +x /usr/sbin/ccaa_web
