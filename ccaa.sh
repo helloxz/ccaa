@@ -7,6 +7,20 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
+#CDN域名设置
+if [ $1 = 'cdn' ]
+	then
+	aria2_url='http://soft.xiaoz.top/linux/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
+	filebrowser_url='http://soft.xiaoz.top/linux/linux-amd64-filebrowser.tar.gz'
+	master_url='https://github.com/helloxz/ccaa/archive/master.zip'
+	ccaa_web_url='http://soft.xiaoz.top/linux/ccaa_web.tar.gz'
+	else
+	aria2_url='https://github.com/q3aql/aria2-static-builds/releases/download/v1.35.0/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
+	filebrowser_url='https://github.com/filebrowser/filebrowser/releases/download/v2.1.0/linux-amd64-filebrowser.tar.gz'
+	master_url='https://github.com/helloxz/ccaa/archive/master.zip'
+	ccaa_web_url='http://soft.xiaoz.org/linux/ccaa_web.tar.gz'
+fi
+
 #安装前的检查
 function check(){
 	echo '-------------------------------------------------------------'
@@ -41,7 +55,7 @@ function install_aria2(){
 	cd ./ccaa_tmp
 	#yum -y update
 	#安装aria2静态编译版本，来源于https://github.com/q3aql/aria2-static-builds/
-	wget -c https://github.com/q3aql/aria2-static-builds/releases/download/v1.35.0/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2
+	wget -c ${aria2_url}
 	tar jxvf aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2
 	cd aria2-1.35.0-linux-gnu-64bit-build1
 	make install
@@ -52,7 +66,7 @@ function install_aria2(){
 function install_file_browser(){
 	cd ./ccaa_tmp
 	#下载File Browser
-	wget https://github.com/filebrowser/filebrowser/releases/download/v2.1.0/linux-amd64-filebrowser.tar.gz
+	wget ${filebrowser_url}
 	#解压
 	tar -zxvf linux-amd64-filebrowser.tar.gz
 	#移动位置
@@ -63,7 +77,7 @@ function install_file_browser(){
 function dealconf(){
 	cd ./ccaa_tmp
 	#下载CCAA项目
-	wget https://github.com/helloxz/ccaa/archive/master.zip
+	wget ${master_url}
 	#解压
 	unzip master.zip
 	#复制CCAA核心目录
@@ -167,7 +181,9 @@ function setting(){
 	bash /etc/ccaa/upbt.sh
 	
 	#安装AriaNg
-	cp ccaa-master/ccaa_web /usr/sbin/
+	wget ${ccaa_web_url}
+	tar -zxvf ccaa_web.tar.gz
+	cp ccaa_web /usr/sbin/
 	chmod +x /usr/sbin/ccaa_web
 
 	#启动服务
