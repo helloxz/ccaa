@@ -43,11 +43,13 @@ function setout(){
 	else
 		#更新软件，否则可能make命令无法安装
 		sudo apt-get update
-		sudo apt-get install -y curl make bzip2 gzip wget unzip
+		sudo apt-get install -y curl make bzip2 gzip wget unzip sudo
 	fi
 	#创建临时目录
 	cd
 	mkdir ./ccaa_tmp
+	#创建用户和用户组
+	useradd -M -g ccaa ccaa -s /sbin/nologin
 }
 #安装Aria2
 function install_aria2(){
@@ -146,6 +148,14 @@ function del_post() {
 		sudo ufw delete 51413/tcp
 	fi
 }
+#添加服务
+function add_service() {
+	if [ -d "/etc/systemd/system" ]
+	then
+		cp /etc/ccaa/services/* /etc/systemd/system
+		systemctl daemon-reload
+	fi
+}
 #设置账号密码
 function setting(){
 	cd
@@ -175,7 +185,7 @@ function setting(){
 	#替换filebrowser读取路径
 	sed -i "s%ccaaDown%${downpath}%g" /etc/ccaa/config.json
 	#替换AriaNg服务器链接
-	sed -i "s/server_ip/${osip}/g" /etc/ccaa/index.html
+	sed -i "s/server_ip/${osip}/g" /etc/ccaa/AriaNg/index.html
 	
 	#更新tracker
 	bash /etc/ccaa/upbt.sh
@@ -187,12 +197,18 @@ function setting(){
 	chmod +x /usr/sbin/ccaa_web
 
 	#启动服务
-	nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
+	nohup sudo -u ccaa aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
 	#nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
-	nohup /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
+	nohup sudo -u ccaa /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
 	#运行filebrowser
-	nohup filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
+	nohup sudo -u ccaa filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
 
+	#重置权限
+	chown -R ccaa:ccaa /etc/ccaa/
+	chown -R ccaa:ccaa ${downpath}
+
+	#注册服务
+	add_service
 
 	echo '-------------------------------------------------------------'
 	echo "大功告成，请访问: http://${osip}:6080/"
