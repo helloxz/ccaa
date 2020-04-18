@@ -1,28 +1,24 @@
-//使用golan实现一个简单的web来支持AriaNg访问
+//Golang实现一个简单的WebServer
 package main
 
 import (
-    "fmt"
-    "net/http"
-    "io/ioutil"
+	"os"
+	"net/http"
+	//"fmt"
 )
 
-
-//统计流量
-func home_page(w http.ResponseWriter, r *http.Request) {
-	//读取AriaNg首页
-	bytes, err := ioutil.ReadFile("/etc/ccaa/index.html")
-    if err != nil {
-        fmt.Println("error : %s", err)
-        return
-    }
-
-	fmt.Fprintln(w, string(bytes))
-}
-
 func main() {
-	//所有页面重定向到首页
-	http.HandleFunc("/", home_page)
+	//声明2个变量
+	var dir,port string
+	//判断参数的长度
+	if len(os.Args) == 3 {
+		dir = os.Args[1]
+		port = os.Args[2]
+	} else{
+		//如果没有参数，则使用默认
+		dir = "/etc/ccaa/AriaNg"
+		port = "6080"
+	}
 	
-    http.ListenAndServe(":6080", nil)
+	panic(http.ListenAndServe(":" + port, http.FileServer(http.Dir(dir))))
 }

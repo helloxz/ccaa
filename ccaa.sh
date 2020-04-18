@@ -49,6 +49,7 @@ function setout(){
 	cd
 	mkdir ./ccaa_tmp
 	#创建用户和用户组
+	groupadd ccaa
 	useradd -M -g ccaa ccaa -s /sbin/nologin
 }
 #安装Aria2

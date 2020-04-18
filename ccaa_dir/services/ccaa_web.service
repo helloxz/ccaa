@@ -3,7 +3,6 @@ Description=ccaa_web
 After=network.target
 
 [Service]
-Type=forking
 ExecStart=/usr/bin/sudo -u ccaa /usr/sbin/ccaa_web
 
 [Install]

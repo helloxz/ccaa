@@ -41,6 +41,9 @@ kill -9 $(pgrep 'aria2c')
 kill -9 $(pgrep 'ccaa_web')
 kill -9 $(pgrep 'filebrowser')
 kill -9 $(pgrep 'caddy')
+systemctl disable aria2
+systemctl disable ccaa_web
+systemctl disable filebrowser
 
 #删除文件
 rm -rf /etc/ccaa
@@ -52,6 +55,9 @@ rm -rf aria2-1.*
 rm -rf AriaNg*
 rm -rf /usr/share/man/man1/aria2c.1
 rm -rf /etc/ssl/certs/ca-certificates.crt
+rm -rf /etc/systemd/system/aria2.service
+rm -rf /etc/systemd/system/ccaa_web.service
+rm -rf /etc/systemd/system/filebrowser.service
 
 #删除filebrowser
 rm -rf /usr/sbin/filebrowser
