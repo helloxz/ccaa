@@ -68,6 +68,10 @@ rm -rf /var/log/ccaa_web.log
 rm -rf /var/log/fbrun.log
 rm -rf /var/log/filebrowser.log
 
+#删除用户和用户组
+userdel ccaa
+groupdel ccaa
+
 #删除端口
 del_post
 echo "------------------------------------------------"
