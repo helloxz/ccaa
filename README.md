@@ -42,7 +42,7 @@ yum -y install curl
 ```bash
 docker run -d -p 6080:6080 -p 6081:6081 -p 6800:6800 \
 	-v /data/ccaaDown:/data/ccaaDown \
-	helloz/ccaa:v2 \
+	helloz/ccaa \
 	sh -c "dccaa pass xiaoz.me && dccaa start && sleep 3600d"
 ```
 
