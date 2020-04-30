@@ -82,6 +82,7 @@ function dealconf(){
 	chmod +x /etc/ccaa/upbt.sh
 	chmod +x ccaa-master/ccaa
 	cp ccaa-master/dccaa /usr/sbin
+	chmod +x /usr/sbin/dccaa
 	cd
 }
 #自动放行端口
