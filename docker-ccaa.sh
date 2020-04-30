@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 #####	一键安装File Browser + Aria2 + AriaNg		#####
 #####	作者：xiaoz.me						#####
 #####	更新时间：2020-02-27				#####
@@ -13,12 +13,12 @@ if [ $1 = 'cdn' ]
 	aria2_url='http://soft.xiaoz.top/linux/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
 	filebrowser_url='http://soft.xiaoz.top/linux/linux-amd64-filebrowser.tar.gz'
 	master_url='https://github.com/helloxz/ccaa/archive/master.zip'
-	ccaa_web_url='http://soft.xiaoz.top/linux/ccaa_web.tar.gz'
+	ccaa_web_url='http://soft.xiaoz.top/linux/ccaa_web'
 	else
 	aria2_url='https://github.com/q3aql/aria2-static-builds/releases/download/v1.35.0/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
 	filebrowser_url='https://github.com/filebrowser/filebrowser/releases/download/v2.0.16/linux-amd64-filebrowser.tar.gz'
 	master_url='https://github.com/helloxz/ccaa/archive/master.zip'
-	ccaa_web_url='http://soft.xiaoz.org/linux/ccaa_web.tar.gz'
+	ccaa_web_url='http://soft.xiaoz.org/linux/ccaa_web'
 fi
 
 #安装前的检查
@@ -81,7 +81,7 @@ function dealconf(){
 	#upbt增加执行权限
 	chmod +x /etc/ccaa/upbt.sh
 	chmod +x ccaa-master/ccaa
-	cp ccaa-master/ccaa /usr/sbin
+	cp ccaa-master/dccaa /usr/sbin
 	cd
 }
 #自动放行端口
@@ -184,7 +184,7 @@ function setting(){
 	
 	#安装AriaNg
 	wget ${ccaa_web_url}
-	tar -zxvf ccaa_web.tar.gz
+	#tar -zxvf ccaa_web.tar.gz
 	cp ccaa_web /usr/sbin/
 	chmod +x /usr/sbin/ccaa_web
 
