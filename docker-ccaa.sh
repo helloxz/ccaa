@@ -92,7 +92,7 @@ function setting(){
 	downpath='/data/ccaaDown'
 	mkdir -p ${downpath}
 	sed -i "s%dir=%dir=${downpath}%g" /etc/ccaa/aria2.conf
-	#sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf
+	sed -ir "s/rpc-secret=.*/rpc-secret=$PASS/g" /etc/ccaa/aria2.conf
 	#替换filebrowser读取路径
 	sed -i "s%ccaaDown%${downpath}%g" /etc/ccaa/config.json
 	#替换AriaNg服务器链接
