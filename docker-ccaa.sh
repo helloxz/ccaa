@@ -119,6 +119,7 @@ function setting(){
 	echo "大功告成，请访问: http://${osip}:6080/"
 	echo 'File Browser 用户名:ccaa'
 	echo 'File Browser 密码:admin'
+	echo 'Aria2 RPC 密钥:' $PASS
 	echo '帮助文档: https://dwz.ovh/ccaa （必看）' 
 	echo '-------------------------------------------------------------'
 }
