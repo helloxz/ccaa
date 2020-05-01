@@ -143,9 +143,9 @@ echo "1) 安装CCAA"
 echo "2) 卸载CCAA"
 echo "3) 更新bt-tracker"
 echo "q) 退出！"
-read -p ":" istype
-case $istype in
-    1) 
+#read -p ":" istype
+case $1 in
+    'install') 
     	check
     	setout
     	install_aria2 && \
@@ -154,13 +154,13 @@ case $istype in
     	setting && \
     	cleanup
     ;;
-    2) 
+    'uninstall') 
     	uninstall
     ;;
-    3) 
+    'upbt') 
     	sh /etc/ccaa/upbt.sh
     ;;
-    q) 
+    'q') 
     	exit
     ;;
     *) echo '参数错误！'
