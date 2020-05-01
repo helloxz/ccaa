@@ -96,8 +96,9 @@ function setting(){
 	#替换filebrowser读取路径
 	sed -i "s%ccaaDown%${downpath}%g" /etc/ccaa/config.json
 	#替换AriaNg服务器链接
-	sed -i "s/server_ip/${osip}/g" /etc/ccaa/AriaNg/index.html
-	
+	#sed -i "s/server_ip/${osip}/g" /etc/ccaa/AriaNg/index.html
+	rm -rf /etc/ccaa/AriaNg/index.html
+	mv /etc/ccaa/AriaNg/dindex.html /etc/ccaa/AriaNg/index.html
 	#更新tracker
 	sh /etc/ccaa/upbt.sh
 	

@@ -13,7 +13,7 @@ filebrowser_pid=$(pgrep 'filebrowser')
 
 #设置aria2密码
 function pass(){
-	sed -ir "s/rpc-secret=.*/rpc-secret=$1/g" /etc/ccaa/aria2.conf
+	sed -ir "s/rpc-secret=.*/rpc-secret=$PASS/g" /etc/ccaa/aria2.conf
 }
 
 #启动ccaa
