@@ -7,19 +7,11 @@
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
-#CDN域名设置
-if [ $1 = 'cdn' ]
-	then
-	aria2_url='http://soft.xiaoz.top/linux/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
-	filebrowser_url='http://soft.xiaoz.top/linux/linux-amd64-filebrowser.tar.gz'
-	master_url='https://github.com/helloxz/ccaa/archive/master.zip'
-	ccaa_web_url='http://soft.xiaoz.top/linux/ccaa_web'
-	else
-	aria2_url='https://github.com/q3aql/aria2-static-builds/releases/download/v1.35.0/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
-	filebrowser_url='https://github.com/filebrowser/filebrowser/releases/download/v2.0.16/linux-amd64-filebrowser.tar.gz'
-	master_url='https://github.com/helloxz/ccaa/archive/master.zip'
-	ccaa_web_url='http://soft.xiaoz.org/linux/ccaa_web'
-fi
+#各种路径设置
+aria2_url='http://soft.xiaoz.top/linux/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
+filebrowser_url='http://soft.xiaoz.top/linux/linux-amd64-filebrowser.tar.gz'
+master_url='https://github.com/helloxz/ccaa/archive/master.zip'
+ccaa_web_url='http://soft.xiaoz.top/linux/ccaa_web'
 
 #安装前的检查
 function check(){
@@ -37,6 +29,7 @@ function check(){
 
 #安装之前的准备
 function setout(){
+	#安装需要的软件
 	apk add curl wget zip tar make bzip2 unzip
 	#创建临时目录
 	cd
@@ -85,96 +78,21 @@ function dealconf(){
 	chmod +x /usr/sbin/dccaa
 	cd
 }
-#自动放行端口
-function chk_firewall(){
-	if [ -e "/etc/sysconfig/iptables" ]
-	then
-		iptables -I INPUT -p tcp --dport 6080 -j ACCEPT
-		iptables -I INPUT -p tcp --dport 6081 -j ACCEPT
-		iptables -I INPUT -p tcp --dport 6800 -j ACCEPT
-		iptables -I INPUT -p tcp --dport 6998 -j ACCEPT
-		iptables -I INPUT -p tcp --dport 51413 -j ACCEPT
-		service iptables save
-		service iptables restart
-	elif [ -e "/etc/firewalld/zones/public.xml" ]
-	then
-		firewall-cmd --zone=public --add-port=6080/tcp --permanent
-		firewall-cmd --zone=public --add-port=6081/tcp --permanent
-		firewall-cmd --zone=public --add-port=6800/tcp --permanent
-		firewall-cmd --zone=public --add-port=6998/tcp --permanent
-		firewall-cmd --zone=public --add-port=51413/tcp --permanent
-		firewall-cmd --reload
-	elif [ -e "/etc/ufw/before.rules" ]
-	then
-		sudo ufw allow 6080/tcp
-		sudo ufw allow 6081/tcp
-		sudo ufw allow 6800/tcp
-		sudo ufw allow 6998/tcp
-		sudo ufw allow 51413/tcp
-	fi
-}
-#删除端口
-function del_post() {
-	if [ -e "/etc/sysconfig/iptables" ]
-	then
-		sed -i '/^.*6080.*/'d /etc/sysconfig/iptables
-		sed -i '/^.*6081.*/'d /etc/sysconfig/iptables
-		sed -i '/^.*6800.*/'d /etc/sysconfig/iptables
-		sed -i '/^.*6998.*/'d /etc/sysconfig/iptables
-		sed -i '/^.*51413.*/'d /etc/sysconfig/iptables
-		service iptables save
-		service iptables restart
-	elif [ -e "/etc/firewalld/zones/public.xml" ]
-	then
-		firewall-cmd --zone=public --remove-port=6080/tcp --permanent
-		firewall-cmd --zone=public --remove-port=6081/tcp --permanent
-		firewall-cmd --zone=public --remove-port=6800/tcp --permanent
-		firewall-cmd --zone=public --remove-port=6998/tcp --permanent
-		firewall-cmd --zone=public --remove-port=51413/tcp --permanent
-		firewall-cmd --reload
-	elif [ -e "/etc/ufw/before.rules" ]
-	then
-		sudo ufw delete 6080/tcp
-		sudo ufw delete 6081/tcp
-		sudo ufw delete 6800/tcp
-		sudo ufw delete 6998/tcp
-		sudo ufw delete 51413/tcp
-	fi
-}
-#添加服务
-function add_service() {
-	if [ -d "/etc/systemd/system" ]
-	then
-		cp /etc/ccaa/services/* /etc/systemd/system
-		systemctl daemon-reload
-	fi
-}
+
 #设置账号密码
 function setting(){
 	cd
 	cd ./ccaa_tmp
 	echo '-------------------------------------------------------------'
-	read -p "设置下载路径（请填写绝对地址，默认/data/ccaaDown）:" downpath
-	read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
-	#如果Aria2密钥为空
-	while [ -z "${secret}" ]
-	do
-		read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
-	done
-	
-	#如果下载路径为空，设置默认下载路径
-	if [ -z "${downpath}" ]
-	then
-		downpath='/data/ccaaDown'
-	fi
 
 	#获取ip
 	osip=$(curl -4s https://api.ip.sb/ip)
 	
 	#执行替换操作
+	downpath='/data/ccaaDown'
 	mkdir -p ${downpath}
 	sed -i "s%dir=%dir=${downpath}%g" /etc/ccaa/aria2.conf
-	sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf
+	#sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf
 	#替换filebrowser读取路径
 	sed -i "s%ccaaDown%${downpath}%g" /etc/ccaa/config.json
 	#替换AriaNg服务器链接
@@ -190,17 +108,16 @@ function setting(){
 	chmod +x /usr/sbin/ccaa_web
 
 	#启动服务
-	nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
+	#nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
 	#nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
-	nohup /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
+	#nohup /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
 	#运行filebrowser
-	nohup filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
+	#nohup filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
 
 	echo '-------------------------------------------------------------'
 	echo "大功告成，请访问: http://${osip}:6080/"
 	echo 'File Browser 用户名:ccaa'
 	echo 'File Browser 密码:admin'
-	echo 'Aria2 RPC 密钥:' ${secret}
 	echo '帮助文档: https://dwz.ovh/ccaa （必看）' 
 	echo '-------------------------------------------------------------'
 }
