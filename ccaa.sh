@@ -236,11 +236,12 @@ function setting(){
 	#注册服务
 	add_service
 
+	echo
 	echo '-------------------------------------------------------------'
-	echo "大功告成，请访问: http://${osip}:6080/"
-	echo 'File Browser 用户名:ccaa'
-	echo 'File Browser 密码:admin'
-	echo 'Aria2 RPC 密钥:' ${secret}
+	echo -e "大功告成，请访问: $(green)http://${osip}:6080/$(none)"
+	echo -e 'File Browser 用户名:$(green)ccaa$(none)'
+	echo -e 'File Browser 密码:$(green)admin$(none)'
+	echo -e 'Aria2 RPC 密钥:' $(green)${secret}$(none)
 	echo '帮助文档: https://dwz.ovh/ccaa （必看）' 
 	echo '-------------------------------------------------------------'
 }
@@ -259,12 +260,17 @@ function uninstall(){
 }
 
 #选择安装方式
-echo "------------------------------------------------"
-echo "Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA)"
-echo "1) 安装CCAA"
-echo "2) 卸载CCAA"
-echo "3) 更新bt-tracker"
-echo "q) 退出！"
+echo
+echo "........... Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA) ..........."
+echo
+echo -e "$(yellow)1)$(none) 安装CCAA"
+echo
+echo -e "$(yellow)2)$(none) 卸载CCAA"
+echo
+echo -e "$(yellow)3)$(none) 更新bt-tracker"
+echo
+echo -e "$(yellow)q)$(none) 退出！"
+echo
 read -p ":" istype
 case $istype in
     1) 
