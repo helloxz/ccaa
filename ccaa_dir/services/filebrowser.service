@@ -1,0 +1,9 @@
+[Unit]
+Description=Filebrowser
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/sudo -u ccaa /usr/sbin/filebrowser -c /etc/ccaa/config.json
+
+[Install]
+WantedBy=multi-user.target

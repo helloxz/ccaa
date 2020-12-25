@@ -1,0 +1,8 @@
+{
+    "address":"0.0.0.0",
+    "database":"/etc/ccaa/filebrowser.db",
+    "log":"/var/log/filebrowser.log",
+    "port":6081,
+    "root":"ccaaDown",
+    "username":"ccaa"
+}

@@ -1,0 +1,9 @@
+[Unit]
+Description=aria2
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/sudo -u ccaa /usr/bin/aria2c --conf-path=/etc/ccaa/aria2.conf
+
+[Install]
+WantedBy=multi-user.target

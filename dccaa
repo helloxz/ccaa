@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 #####		CCAA管理脚本			#####
 #####		Author:xiaoz.me			#####
-#####		Update:2020-02-27		#####
+#####		Update:2020-04-30		#####
 
 #导入环境变量
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
@@ -11,19 +11,22 @@ aria2pid=$(pgrep 'aria2c')
 ccaa_web_pid=$(pgrep 'ccaa_web')
 filebrowser_pid=$(pgrep 'filebrowser')
 
-#如果变量不存在
-if [ ! $1 ]
-	then
-	bash <(curl -Lsk https://raw.githubusercontent.com/helloxz/ccaa/master/ccaa.sh)
-	exit
-fi
+#设置aria2密码
+function pass(){
+	sed -ir "s/rpc-secret=.*/rpc-secret=$PASS/g" /etc/ccaa/aria2.conf
+}
+
+#启动ccaa
+function ccaa_start(){
+	nohup aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
+	nohup /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
+	nohup filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
+	sleep 3600d
+}
 
 case $1 in
 	'start')
-		nohup sudo -u ccaa aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
-		nohup sudo -u ccaa /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
-		nohup sudo -u ccaa filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
-		exit
+		ccaa_start
 	;;
 	'stop')
 		kill -9 ${aria2pid}
@@ -34,10 +37,7 @@ case $1 in
 		kill -9 ${aria2pid}
 		kill -9 ${ccaa_web_pid}
 		kill -9 ${filebrowser_pid}
-		nohup sudo -u ccaa aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
-		nohup sudo -u ccaa /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
-		nohup sudo -u ccaa filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
-		exit;
+		ccaa_start
 	;;
 	'status')
 		if [ "$aria2pid" == "" ]
@@ -53,6 +53,9 @@ case $1 in
 	;;
 	'-v')
 		cat /etc/ccaa/version.txt && echo ''
+	;;
+	'pass')
+		pass $2
 	;;
 	*)
 		echo '参数错误！'
