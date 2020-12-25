@@ -3,9 +3,30 @@
 #####	作者：xiaoz.me						#####
 #####	更新时间：2020-02-27				#####
 
+red='\e[91m'
+green='\e[92m'
+yellow='\e[93m'
+magenta='\e[95m'
+cyan='\e[96m'
+none='\e[0m'
+
 #导入环境变量
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
+
+#检查sudo是否安装
+if test -z "$(command -v sudo)"; then
+	echo "你${red}没有安装$(none)${yellow}sudo$(none),下面开始安装sudo\r"
+	if [ -e "/usr/bin/yum" ]
+	then
+		yum update
+		yum install -y sudo
+	else
+		apt-get update
+		apt-get install -y sudo
+	fi
+	exit 1
+fi
 
 #CDN域名设置
 if [ $1 = 'cdn' ]
