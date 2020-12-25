@@ -263,13 +263,13 @@ function uninstall(){
 echo
 echo "........... Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA) ..........."
 echo
-echo -e "$(yellow)1)$(none) 安装CCAA"
+echo -e "$(yellow)1.$(none) 安装CCAA"
 echo
-echo -e "$(yellow)2)$(none) 卸载CCAA"
+echo -e "$(yellow)2.$(none) 卸载CCAA"
 echo
-echo -e "$(yellow)3)$(none) 更新bt-tracker"
+echo -e "$(yellow)3.$(none) 更新bt-tracker"
 echo
-echo -e "$(yellow)q)$(none) 退出！"
+echo -e "$(yellow)q.$(none) 退出！"
 echo
 read -p ":" istype
 case $istype in
