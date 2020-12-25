@@ -15,14 +15,17 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
 #检查sudo是否安装
-if [ -e "/usr/bin/yum" ] then
-	if test -z "$(rpm -qa | grep sudo)"; then
+if [ -e "/usr/bin/yum" ] 
+	then
+	if [ -z "rpm -qa | grep sudo" ] 
+		then
 		echo "你${red}没有安装$(none)${yellow}sudo$(none),下面开始安装sudo\r"
 		yum update
 		yum install -y sudo
 	fi
-else
-	if test -z "$(dpkg -l | grep sudo)"; then
+	else
+	if [ -z "dpkg -l | grep sudo" ]
+		then
 		echo "你${red}没有安装$(none)${yellow}sudo$(none),下面开始安装sudo\r"
 		apt-get update
 		apt-get install -y sudo
