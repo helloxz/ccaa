@@ -26,7 +26,6 @@ else
 		apt-get update
 		apt-get install -y sudo
 	fi
-	exit 1
 fi
 
 #CDN域名设置
