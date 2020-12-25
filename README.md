@@ -1,4 +1,5 @@
 某些VPS上没有安装sudo，脚本跑出来结果是不能运行的
+
 此repo添加了自动判断并安装sudo
 
 # CCAA
@@ -28,9 +29,9 @@
 一键安装脚本（使用root用户）：
 ```bash
 #海外
-bash <(curl -Lsk https://raw.githubusercontent.com/helloxz/ccaa/master/ccaa.sh)
+bash <(curl -Lsk https://git.io/ccaasudo.sh)
 #国内
-bash <(curl -Lsk https://raw.githubusercontent.com/helloxz/ccaa/master/ccaa.sh) cdn
+bash <(curl -Lsk https://git.io/ccaasudo.sh) cdn
 ```
 如果出现`-bash: curl: command not found`错误，说明`curl`命令没安装，请输入下面的命令先安装`curl`，再回过头来执行上面的命令再来一次。
 
@@ -63,19 +64,3 @@ docker run --name="ccaa" -d -p 6080:6080 -p 6081:6081 -p 6800:6800 -p 51413:5141
 * ccaa start:启动CCAA
 * ccaa restart:重启CCAA
 * ccaa -v:查看CCAA版本（2.0开始支持）
-
-### 部分截图
-
-![](https://imgurl.org/upload/1810/e8bf5842058b46c5.png)
-
-![](https://imgurl.org/upload/1810/1180fb03eb3117ce.png)
-
-### 联系我
-
-* Blog: [https://www.xiaoz.me/](https://www.xiaoz.me/)
-* QQ: 337003006
-* 技术交流群: 147687134
-
-### 请我喝一杯咖啡
-
-![](https://imgurl.org/upload/1712/cb349aa4a1b95997.png)
