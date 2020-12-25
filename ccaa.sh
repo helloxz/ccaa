@@ -14,7 +14,10 @@ none='\e[0m'
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
-#检查sudo是否安装
+# root
+[[ $(id -u) != 0 ]] && echo -e "\n 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}\n" && exit 1
+
+# sudo
 if [ -e "/usr/bin/yum" ] 
 then
 	if [ -z "$(rpm -qa | grep sudo)" ] 
