@@ -18,16 +18,16 @@ export PATH
 [[ $(id -u) != 0 ]] && echo -e "\n 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}\n" && exit 1
 
 # sudo
-if [ -e "/usr/bin/yum" ] 
+if [[ -e "/usr/bin/yum" ]] 
 then
-	if [ -z "$(rpm -qa | grep sudo)" ] 
+	if [[ -z "$(rpm -qa | grep sudo)" ]] 
 	then
 		echo -e "你的小鸡${red}没有安装${none}${yellow}sudo${none},下面开始安装${yellow}sudo${none}"
 		yum update
 		yum install -y sudo
 	fi
 else
-	if [ -z "$(dpkg -l | grep sudo)" ]
+	if [[ -z "$(dpkg -l | grep sudo)" ]]
 	then
 		echo -e "你的小鸡${red}没有安装${none}${yellow}sudo${none},下面开始安装${yellow}sudo${none}"
 		apt-get update
