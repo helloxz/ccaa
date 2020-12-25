@@ -17,16 +17,16 @@ export PATH
 #检查sudo是否安装
 if [ -e "/usr/bin/yum" ] 
 then
-	if [ -z $("rpm -qa | grep sudo";) ] 
+	if [ -z "$(rpm -qa | grep sudo)" ] 
 	then
-		echo -e "你的小鸡${red}没有安装$(none)${yellow}sudo${none},下面开始安装${yellow}sudo${none}"
+		echo -e "你的小鸡${red}没有安装${none}${yellow}sudo${none},下面开始安装${yellow}sudo${none}"
 		yum update
 		yum install -y sudo
 	fi
 else
-	if [ -z $("dpkg -l | grep sudo";) ]
+	if [ -z "$(dpkg -l | grep sudo)" ]
 	then
-		echo -e "你的小鸡${red}没有安装$(none)${yellow}sudo${none},下面开始安装${yellow}sudo${none}"
+		echo -e "你的小鸡${red}没有安装${none}${yellow}sudo${none},下面开始安装${yellow}sudo${none}"
 		apt-get update
 		apt-get install -y sudo
 	fi
