@@ -15,7 +15,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
 # root
-[[ $(id -u) != 0 ]] && echo -e "\n 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}\n" && exit 1
+[[ $(id -u) != 0 ]] && -e "\n 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}\n" && exit 1
 
 # sudo
 if [[ -e "/usr/bin/yum" ]] 
@@ -68,14 +68,15 @@ fi
 
 #安装前的检查
 function check(){
+	echo
 	echo '-------------------------------------------------------------'
 	if [ -e "/etc/ccaa" ]
         then
-        echo 'CCAA已经安装，若需要重新安装，请先卸载再安装！'
+        echo -e '${red}CCAA已经安装，若需要重新安装，请先卸载再安装！${none}'
         echo '-------------------------------------------------------------'
         exit
 	else
-	        echo '检测通过，即将开始安装。'
+	        echo -e '${green}检测通过，即将开始安装。${none}'
 	        echo '-------------------------------------------------------------'
 	fi
 }
@@ -206,6 +207,7 @@ function add_service() {
 function setting(){
 	cd
 	cd ./ccaa_tmp
+	echo
 	echo '-------------------------------------------------------------'
 	read -p "设置下载路径（请填写绝对地址，默认/data/ccaaDown）:" downpath
 	read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
@@ -258,10 +260,10 @@ function setting(){
 
 	echo
 	echo '-------------------------------------------------------------'
-	echo -e "大功告成，请访问: $(green)http://${osip}:6080/$(none)"
-	echo -e 'File Browser 用户名:$(green)ccaa$(none)'
-	echo -e 'File Browser 密码:$(green)admin$(none)'
-	echo -e 'Aria2 RPC 密钥:' $(green)${secret}$(none)
+	echo -e "大功告成，请访问: ${green}http://${osip}:6080/${none}"
+	echo -e 'File Browser 用户名:${green}ccaa${none}'
+	echo -e 'File Browser 密码:${green}admin${none}'
+	echo -e 'Aria2 RPC 密钥:' ${green}${secret}${none}'
 	echo '帮助文档: https://dwz.ovh/ccaa （必看）' 
 	echo '-------------------------------------------------------------'
 }
@@ -285,11 +287,11 @@ echo "........... Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA) 
 echo
 echo -e "${yellow}1)${none} 安装CCAA"
 echo
-echo -e "${yellow}2.${none} 卸载CCAA"
+echo -e "${yellow}2)${none} 卸载CCAA"
 echo
-echo -e "${yellow}3.${none} 更新bt-tracker"
+echo -e "${yellow}3)${none} 更新bt-tracker"
 echo
-echo -e "${yellow}q.${none} 退出！"
+echo -e "${yellow}q)${none} 退出！"
 echo
 read -p ":" istype
 case $istype in
