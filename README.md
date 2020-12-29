@@ -1,6 +1,6 @@
 某些VPS上没有安装sudo，脚本跑出来结果是不能运行的
 
-此repo添加了自动判断并安装sudo
+此repo添加了自动判断并安装sudo的功能
 
 # CCAA
 
