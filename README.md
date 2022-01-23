@@ -1,7 +1,8 @@
 # 我的改动
 - 某些VPS上没有安装sudo，脚本跑出来结果是不能运行的。此repo添加了自动判断并安装sudo的功能
-
 - 本来就没有安装caddy，卸载时不需要杀caddy进程
+- 把ccaa_web放到repo里
+- 去掉Docker相关文件，想用Docker请去原repo https://github.com/helloxz/ccaa
 
 # CCAA
 
