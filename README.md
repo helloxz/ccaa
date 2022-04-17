@@ -4,6 +4,9 @@
 - 把ccaa_web放到repo里
 - 去掉Docker相关文件，想用Docker请去原repo https://github.com/helloxz/ccaa
 
+# Aria2 下载完成后自动转移到rclone挂载的网盘
+https://github.com/crazypeace/aria2_auto_rclone
+
 # CCAA
 
 原为`CentOS + Caddy + AriaNg + Aria2`，故命名为CCAA，不过现在不仅仅支持CentOS，主流的Debian、Ubuntu也已经支持，自2.0版本已移除Caddy，改用Golang写了一个简单的webserver来运行AriaNg
