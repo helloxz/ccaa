@@ -7,6 +7,8 @@
 # Aria2 下载完成后自动转移到rclone挂载的网盘
 https://github.com/crazypeace/aria2_auto_rclone
 
+## 用你的STAR告诉我这个Repo对你有用 Welcome STARs! :)
+
 # CCAA
 
 原为`CentOS + Caddy + AriaNg + Aria2`，故命名为CCAA，不过现在不仅仅支持CentOS，主流的Debian、Ubuntu也已经支持，自2.0版本已移除Caddy，改用Golang写了一个简单的webserver来运行AriaNg
