@@ -40,7 +40,6 @@ function del_post() {
 kill -9 $(pgrep 'aria2c')
 kill -9 $(pgrep 'ccaa_web')
 kill -9 $(pgrep 'filebrowser')
-kill -9 $(pgrep 'caddy')
 systemctl disable aria2
 systemctl disable ccaa_web
 systemctl disable filebrowser

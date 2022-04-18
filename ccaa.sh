@@ -1,36 +1,60 @@
 #!/bin/bash
 #####	一键安装File Browser + Aria2 + AriaNg		#####
-#####	作者：xiaoz.me						#####
-#####	更新时间：2020-02-27				#####
+#####	作者：xiaoz.me		更新时间：2020-02-27	#####
+#############################################################
+#####   remove cdn option                               #####
+#####   crazypeace @ 2022-01-23                         #####
+#############################################################
+
+
+
+red='\e[91m'
+green='\e[92m'
+yellow='\e[93m'
+magenta='\e[95m'
+cyan='\e[96m'
+none='\e[0m'
 
 #导入环境变量
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
 
-#CDN域名设置
-if [ $1 = 'cdn' ]
+# root
+[[ $(id -u) != 0 ]] && -e "\n 哎呀……请使用 ${red}root ${none}用户运行 ${yellow}~(^_^) ${none}\n" && exit 1
+
+# sudo
+if [[ -e "/usr/bin/yum" ]] 
+then
+	if [[ -z "$(rpm -qa | grep sudo)" ]] 
 	then
-	aria2_url='http://soft.xiaoz.top/linux/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
-	filebrowser_url='http://soft.xiaoz.top/linux/linux-amd64-filebrowser.tar.gz'
-	master_url='https://github.com/helloxz/ccaa/archive/master.zip'
-	ccaa_web_url='http://soft.xiaoz.top/linux/ccaa_web.tar.gz'
-	else
-	aria2_url='https://github.com/q3aql/aria2-static-builds/releases/download/v1.35.0/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
-	filebrowser_url='https://github.com/filebrowser/filebrowser/releases/download/v2.0.16/linux-amd64-filebrowser.tar.gz'
-	master_url='https://github.com/helloxz/ccaa/archive/master.zip'
-	ccaa_web_url='http://soft.xiaoz.org/linux/ccaa_web.tar.gz'
+		echo -e "你的小鸡${red}没有安装${none}${yellow}sudo${none},下面开始安装${yellow}sudo${none}"
+		yum update
+		yum install -y sudo
+	fi
+else
+	if [[ -z "$(dpkg -l | grep sudo)" ]]
+	then
+		echo -e "你的小鸡${red}没有安装${none}${yellow}sudo${none},下面开始安装${yellow}sudo${none}"
+		apt-get update
+		apt-get install -y sudo
+	fi
 fi
+
+aria2_url='https://github.com/q3aql/aria2-static-builds/releases/download/v1.35.0/aria2-1.35.0-linux-gnu-64bit-build1.tar.bz2'
+filebrowser_url='https://github.com/filebrowser/filebrowser/releases/download/v2.0.16/linux-amd64-filebrowser.tar.gz'
+master_url='https://github.com/crazypeace/ccaa/archive/master.zip'
 
 #安装前的检查
 function check(){
+	echo
 	echo '-------------------------------------------------------------'
 	if [ -e "/etc/ccaa" ]
         then
-        echo 'CCAA已经安装，若需要重新安装，请先卸载再安装！'
+        echo -e "${red}CCAA已经安装，若需要重新安装，请先卸载再安装！${none}"
         echo '-------------------------------------------------------------'
         exit
 	else
-	        echo '检测通过，即将开始安装。'
+	        echo -e "${green}检测通过，即将开始安装。${none}"
 	        echo '-------------------------------------------------------------'
 	fi
 }
@@ -52,6 +76,7 @@ function setout(){
 	groupadd ccaa
 	useradd -M -g ccaa ccaa -s /sbin/nologin
 }
+
 #安装Aria2
 function install_aria2(){
 	#进入临时目录
@@ -76,6 +101,7 @@ function install_file_browser(){
 	mv filebrowser /usr/sbin
 	cd
 }
+
 #处理配置文件
 function dealconf(){
 	cd ./ccaa_tmp
@@ -93,6 +119,7 @@ function dealconf(){
 	cp ccaa-master/ccaa /usr/sbin
 	cd
 }
+
 #自动放行端口
 function chk_firewall(){
 	if [ -e "/etc/sysconfig/iptables" ]
@@ -121,6 +148,7 @@ function chk_firewall(){
 		sudo ufw allow 51413/tcp
 	fi
 }
+
 #删除端口
 function del_post() {
 	if [ -e "/etc/sysconfig/iptables" ]
@@ -149,6 +177,7 @@ function del_post() {
 		sudo ufw delete 51413/tcp
 	fi
 }
+
 #添加服务
 function add_service() {
 	if [ -d "/etc/systemd/system" ]
@@ -157,10 +186,12 @@ function add_service() {
 		systemctl daemon-reload
 	fi
 }
+
 #设置账号密码
 function setting(){
 	cd
 	cd ./ccaa_tmp
+	echo
 	echo '-------------------------------------------------------------'
 	read -p "设置下载路径（请填写绝对地址，默认/data/ccaaDown）:" downpath
 	read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
@@ -191,10 +222,8 @@ function setting(){
 	#更新tracker
 	bash /etc/ccaa/upbt.sh
 	
-	#安装AriaNg
-	wget ${ccaa_web_url}
-	tar -zxvf ccaa_web.tar.gz
-	cp ccaa_web /usr/sbin/
+	#安装ccaa_web
+	cp ccaa-master/ccaa_web /usr/sbin/
 	chmod +x /usr/sbin/ccaa_web
 
 	#启动服务
@@ -211,12 +240,13 @@ function setting(){
 	#注册服务
 	add_service
 
+	echo
 	echo '-------------------------------------------------------------'
-	echo "大功告成，请访问: http://${osip}:6080/"
-	echo 'File Browser 用户名:ccaa'
-	echo 'File Browser 密码:admin'
-	echo 'Aria2 RPC 密钥:' ${secret}
-	echo '帮助文档: https://dwz.ovh/ccaa （必看）' 
+	echo -e "大功告成，请访问: ${green}http://${osip}:6080/${none}"
+	echo -e "File Browser 用户名:${green}ccaa${none}"
+	echo -e "File Browser 密码:${green}admin${none}"
+	echo -e "Aria2 RPC 密钥: ${green}${secret}${none}"
+	echo '帮助文档: https://dwz.ovh/ccaa （必看）'
 	echo '-------------------------------------------------------------'
 }
 #清理工作
@@ -229,17 +259,22 @@ function cleanup(){
 
 #卸载
 function uninstall(){
-	wget -O ccaa-uninstall.sh https://raw.githubusercontent.com/helloxz/ccaa/master/uninstall.sh
+	wget -O ccaa-uninstall.sh https://raw.githubusercontent.com/crazypeace/ccaa/master/uninstall.sh
 	bash ccaa-uninstall.sh
 }
 
 #选择安装方式
-echo "------------------------------------------------"
-echo "Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA)"
-echo "1) 安装CCAA"
-echo "2) 卸载CCAA"
-echo "3) 更新bt-tracker"
-echo "q) 退出！"
+echo
+echo "........... Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA) ..........."
+echo
+echo -e "${yellow}1)${none} 安装CCAA"
+echo
+echo -e "${yellow}2)${none} 卸载CCAA"
+echo
+echo -e "${yellow}3)${none} 更新bt-tracker"
+echo
+echo -e "${yellow}q)${none} 退出！"
+echo
 read -p ":" istype
 case $istype in
     1) 
@@ -263,3 +298,5 @@ case $istype in
     ;;
     *) echo '参数错误！'
 esac
+
+
