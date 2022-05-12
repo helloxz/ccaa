@@ -279,6 +279,8 @@ function uninstall(){
 #选择安装方式
 echo
 echo "........... Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA) ..........."
+echo "教程 https://zelikk.blogspot.com/2022/01/vmess-websocket-tls-caddy-nginx-aria2-ariang-filebrowser.html"
+echo "有问题进群交流 https://t.me/+D8aqonnCR3s1NTRl"
 echo
 echo -e "${yellow}1)${none} 安装CCAA"
 echo
