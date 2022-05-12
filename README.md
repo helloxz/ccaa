@@ -3,6 +3,8 @@
 - 本来就没有安装caddy，卸载时不需要杀caddy进程
 - 把ccaa_web放到repo里
 - 去掉Docker相关文件，想用Docker请去原repo https://github.com/helloxz/ccaa
+- 支持选择IPv4或IPv6
+- 生成默认RPC 密钥
 
 # Aria2 下载完成后自动转移到rclone挂载的网盘
 https://github.com/crazypeace/aria2_auto_rclone
