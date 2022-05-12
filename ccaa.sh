@@ -3,7 +3,9 @@
 #####	作者：xiaoz.me		更新时间：2020-02-27	#####
 #############################################################
 #####   remove cdn option                               #####
-#####   crazypeace @ 2022-01-23                         #####
+#####   support IPv4 or IPv6                            #####
+#####   add default_secret                              #####
+#####   crazypeace @ 2022-05-12                         #####
 #############################################################
 
 
@@ -194,18 +196,20 @@ function setting(){
 	echo
 	echo '-------------------------------------------------------------'
 	read -p "设置下载路径（请填写绝对地址，默认/data/ccaaDown）:" downpath
-	read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
-	#如果Aria2密钥为空
-	while [ -z "${secret}" ]
-	do
-		read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符):" secret
-	done
-	
 	#如果下载路径为空，设置默认下载路径
 	if [ -z "${downpath}" ]
 	then
 		downpath='/data/ccaaDown'
 	fi
+
+	default_secret=$(echo $(cat /proc/sys/kernel/random/uuid) | sed 's/.*\([a-z0-9]\{12\}\)$/\1/g')
+
+	read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符 默认 ${default_secret}):" secret
+	#如果Aria2密钥为空
+	if [ -z "${secret}" ]
+	then
+		secret=$default_secret
+	fi	
 
 	#获取ip
 	echo -e "如果你的小鸡是${magenta}双栈(同时有IPv4和IPv6的IP)${none}，请选择你准备用哪个'网口'"
