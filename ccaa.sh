@@ -73,6 +73,7 @@ function setout(){
 	fi
 	#创建临时目录
 	cd
+	rm -rf ./ccaa_tmp
 	mkdir ./ccaa_tmp
 	#创建用户和用户组
 	groupadd ccaa
