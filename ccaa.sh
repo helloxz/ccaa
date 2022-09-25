@@ -1,6 +1,6 @@
 #!/bin/bash
 #####	一键安装File Browser + Aria2 + AriaNg		#####
-#####	作者：xiaoz.me		更新时间：2020-02-27	#####
+#####	作者: xiaoz.me		更新时间: 2020-02-27	#####
 #############################################################
 #####   remove cdn option                               #####
 #####   support IPv4 or IPv6                            #####
@@ -220,6 +220,7 @@ function setting(){
 		osip=$(curl -4 -s https://api.myip.la)
 	elif [[ $netstack = "6" ]]; then 
 		osip=$(curl -6 -s https://api.myip.la)
+		osip="[${osip}]"
 	else
 		osip=$(curl -s https://api.myip.la)
 	fi
