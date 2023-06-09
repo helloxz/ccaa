@@ -211,18 +211,32 @@ function setting(){
 	then
 		secret=$default_secret
 	fi	
+	# 生成密钥的BASE64URL
+	secret_base64url=$(echo -n ${secret} | base64 -w 0 | tr '+/' '-_' | tr -d '=')
 
 	#获取ip
 	echo -e "如果你的小鸡是${magenta}双栈(同时有IPv4和IPv6的IP)${none}，请选择你准备用哪个'网口'"
 	echo "如果你不懂这段话是什么意思, 请直接回车"
 	read -p "$(echo -e "Input ${cyan}4${none} for IPv4, ${cyan}6${none} for IPv6:") " netstack
 	if [[ $netstack = "4" ]]; then
-		osip=$(curl -4 -s https://api.myip.la)
+		osip=$(curl -4s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
 	elif [[ $netstack = "6" ]]; then 
-		osip=$(curl -6 -s https://api.myip.la)
+		osip=$(curl -6s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
 		osip="[${osip}]"
 	else
-		osip=$(curl -s https://api.myip.la)
+		osip=$(curl -4s --connect-timeout 3 https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
+		if [[ -z $osip ]]; then
+			osip=$(curl -6s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
+			osip="[${osip}]"
+			netstack=6
+		else
+			netstack=4
+		fi
+	fi
+	
+	// 监听IPv6需要打开设置
+	if [[ $netstack = "6" ]]; then 
+		sed -i "s/disable-ipv6=.*$/disable-ipv6=false/g" /etc/ccaa/aria2.conf
 	fi
 	
 	#执行替换操作
@@ -257,7 +271,7 @@ function setting(){
 
 	echo
 	echo '-------------------------------------------------------------'
-	echo -e "大功告成，请访问: ${green}http://${osip}:6080/${none}"
+	echo -e "大功告成，请访问: ${green}http://${osip}:6080/#!/settings/rpc/set/ws/${osip}/6800/jsonrpc/${secret_base64url}${none}"
 	echo -e "File Browser 用户名:${green}ccaa${none}"
 	echo -e "File Browser 密码:${green}admin${none}"
 	echo -e "Aria2 RPC 密钥: ${green}${secret}${none}"
@@ -282,7 +296,7 @@ function uninstall(){
 echo
 echo "........... Linux + File Browser + Aria2 + AriaNg一键安装脚本(CCAA) ..........."
 echo "教程 https://zelikk.blogspot.com/2022/01/vmess-websocket-tls-caddy-nginx-aria2-ariang-filebrowser.html"
-echo "有问题进群交流 https://t.me/+D8aqonnCR3s1NTRl"
+echo "有问题进群交流 https://t.me/+ISuvkzFGZPBhMzE1"
 echo
 echo -e "${yellow}1)${none} 安装CCAA"
 echo
