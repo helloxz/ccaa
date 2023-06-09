@@ -48,7 +48,6 @@ systemctl disable filebrowser
 rm -rf /etc/ccaa
 rm -rf /usr/sbin/ccaa_web
 rm -rf /usr/sbin/ccaa
-rm -rf /usr/sbin/ccaa
 rm -rf /usr/bin/aria2c
 rm -rf aria2-1.*
 rm -rf AriaNg*
