@@ -5,11 +5,16 @@
 - 去掉Docker相关文件，想用Docker请去原repo https://github.com/helloxz/ccaa
 - 支持选择IPv4或IPv6
 - 生成默认RPC 密钥
+- 生成一条URL设置服务端参数（地址，端口，path，协议，RPC密钥）
+![image](https://github.com/crazypeace/ccaa/assets/665889/77d91798-f39d-4a88-8b18-cc11bf25fb87)
+
 
 # Aria2 下载完成后自动转移到rclone挂载的网盘
 https://github.com/crazypeace/aria2_auto_rclone
 
 ## 用你的STAR告诉我这个Repo对你有用 Welcome STARs! :)
+
+[![Stargazers over time](https://starchart.cc/crazypeace/ccaa.svg)](https://starchart.cc/crazypeace/ccaa)
 
 # CCAA
 
