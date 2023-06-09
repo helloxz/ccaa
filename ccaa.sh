@@ -222,20 +222,21 @@ function setting(){
 		osip=$(curl -4s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
 	elif [[ $netstack = "6" ]]; then 
 		osip=$(curl -6s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
-		osip="[${osip}]"
 	else
 		osip=$(curl -4s --connect-timeout 3 https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
 		if [[ -z $osip ]]; then
 			osip=$(curl -6s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
-			osip="[${osip}]"
 			netstack=6
 		else
 			netstack=4
 		fi
 	fi
 	
-	// 监听IPv6需要打开设置
+	// 如果是IPV6环境
 	if [[ $netstack = "6" ]]; then 
+		// IP地址要用[]包起来
+		osip="[${osip}]"
+		// 监听IPv6需要打开aria2.conf设置
 		sed -i "s/disable-ipv6=.*$/disable-ipv6=false/g" /etc/ccaa/aria2.conf
 	fi
 	
