@@ -14,7 +14,20 @@ filebrowser_pid=$(pgrep 'filebrowser')
 #如果变量不存在
 if [ ! $1 ]
 	then
-	bash <(curl -Lsk https://raw.githubusercontent.com/helloxz/ccaa/master/ccaa.sh)
+
+echo '...CCAA管理脚本用法...
+#查看ccaa状态
+  ccaa status
+#启动ccaa
+  ccaa start
+#停止ccaa
+  ccaa stop
+#重启ccaa
+  ccaa restart
+#查看当前版本
+  ccaa -v'
+
+	bash <(curl -Lsk https://raw.githubusercontent.com/crazypeace/ccaa/master/ccaa.sh)
 	exit
 fi
 
@@ -45,9 +58,11 @@ case $1 in
 				echo "Not running!"
 			else
 				echo '-----------------------------------------------'
+				cat /etc/ccaa/aria2.conf | grep 'rpc-secret='
 				echo "Aria2 is running,pid is ${aria2pid}."
 				echo "AriaNg is running,pid is ${ccaa_web_pid}."
 				echo "Filebrowser is running,pid is ${filebrowser_pid}."
+				echo '帮助文档: https://dwz.ovh/ccaa （必看）'
 				echo '-----------------------------------------------'
 		fi
 	;;
