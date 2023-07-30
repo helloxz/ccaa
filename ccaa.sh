@@ -187,6 +187,11 @@ function add_service() {
 	then
 		cp /etc/ccaa/services/* /etc/systemd/system
 		systemctl daemon-reload
+  
+		file_list=$(ls /etc/ccaa/services)
+		for file in $file_list; do
+		  systemctl enable $file
+		done
 	fi
 }
 
