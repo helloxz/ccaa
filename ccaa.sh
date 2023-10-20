@@ -205,7 +205,7 @@ function setting(){
 	#如果下载路径为空，设置默认下载路径
 	if [ -z "${downpath}" ]
 	then
-		downpath='/data/_ccaaDown_'
+		downpath='/data/ccaaDown'
 	fi
 
 	default_secret=$(echo $(cat /proc/sys/kernel/random/uuid) | sed 's/.*\([a-z0-9]\{12\}\)$/\1/g')
@@ -215,7 +215,7 @@ function setting(){
 	if [ -z "${secret}" ]
 	then
 		secret=$default_secret
-	fi	
+	fi		
 	# 生成密钥的BASE64URL
 	secret_base64url=$(echo -n ${secret} | base64 -w 0 | tr '+/' '-_' | tr -d '=')
 
@@ -244,6 +244,15 @@ function setting(){
 		# 监听IPv6需要打开aria2.conf设置
 		sed -i "s/disable-ipv6=.*$/disable-ipv6=false/g" /etc/ccaa/aria2.conf
 	fi
+
+	default_user="ccaa"
+
+	read -p "filebrowser用户名: 默认 ${default_user}):" filebrowserUser
+	#如果filebrowser用户名为空
+	if [ -z "${filebrowserUser}" ]
+	then
+		filebrowserUser=$default_user
+	fi	
 	
 	#执行替换操作
 	mkdir -p ${downpath}
@@ -251,6 +260,8 @@ function setting(){
 	sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf
 	#替换filebrowser读取路径
 	sed -i "s%_ccaaDown_%${downpath}%g" /etc/ccaa/config.json
+	#替换filebrowser用户名
+	sed -i "s%_ccaaUser_%${filebrowserUser}%g" /etc/ccaa/config.json
 	#替换AriaNg服务器链接
 	sed -i "s/server_ip/${osip}/g" /etc/ccaa/AriaNg/index.html
 	

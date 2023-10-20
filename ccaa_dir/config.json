@@ -4,5 +4,5 @@
     "log":"/var/log/filebrowser.log",
     "port":6081,
     "root":"_ccaaDown_",
-    "username":"ccaa"
+    "username":"_ccaaUser_"
 }
