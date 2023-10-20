@@ -205,7 +205,7 @@ function setting(){
 	#如果下载路径为空，设置默认下载路径
 	if [ -z "${downpath}" ]
 	then
-		downpath='/data/ccaaDown'
+		downpath='/data/_ccaaDown_'
 	fi
 
 	default_secret=$(echo $(cat /proc/sys/kernel/random/uuid) | sed 's/.*\([a-z0-9]\{12\}\)$/\1/g')
@@ -250,7 +250,7 @@ function setting(){
 	sed -i "s%dir=%dir=${downpath}%g" /etc/ccaa/aria2.conf
 	sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf
 	#替换filebrowser读取路径
-	sed -i "s%ccaaDown%${downpath}%g" /etc/ccaa/config.json
+	sed -i "s%_ccaaDown_%${downpath}%g" /etc/ccaa/config.json
 	#替换AriaNg服务器链接
 	sed -i "s/server_ip/${osip}/g" /etc/ccaa/AriaNg/index.html
 	
