@@ -247,7 +247,7 @@ function setting(){
 
 	default_user="ccaa"
 
-	read -p "filebrowser用户名: 默认 ${default_user}):" filebrowserUser
+	read -p "filebrowser 用户名: 默认 ${default_user}):" filebrowserUser
 	#如果filebrowser用户名为空
 	if [ -z "${filebrowserUser}" ]
 	then
