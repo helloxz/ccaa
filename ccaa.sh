@@ -289,7 +289,7 @@ function setting(){
 	echo
 	echo '-------------------------------------------------------------'
 	echo -e "大功告成，请访问: ${green}http://${osip}:6080/#!/settings/rpc/set/ws/${osip}/6800/jsonrpc/${secret_base64url}${none}"
-	echo -e "File Browser 用户名:${green}ccaa${none}"
+	echo -e "File Browser 用户名:${green}${filebrowserUser}${none}"
 	echo -e "File Browser 密码:${green}admin${none}"
 	echo -e "Aria2 RPC 密钥: ${green}${secret}${none}"
 	echo '帮助文档: https://dwz.ovh/ccaa （必看）'
