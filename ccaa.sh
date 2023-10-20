@@ -5,7 +5,7 @@
 #####   remove cdn option                               #####
 #####   support IPv4 or IPv6                            #####
 #####   add default_secret                              #####
-#####   crazypeace @ 2022-05-12                         #####
+#####   crazypeace                                      #####
 #############################################################
 
 
@@ -52,11 +52,11 @@ function check(){
 	echo '-------------------------------------------------------------'
 	if [ -e "/etc/ccaa" ]
         then
-        echo -e "${red}CCAA已经安装，若需要重新安装，请先卸载再安装！${none}"
+        echo -e "${red}CCAA已经安装, 若需要重新安装, 请先卸载再安装!${none}"
         echo '-------------------------------------------------------------'
         exit
 	else
-	        echo -e "${green}检测通过，即将开始安装。${none}"
+	        echo -e "${green}检测通过, 即将开始安装. ${none}"
 	        echo '-------------------------------------------------------------'
 	fi
 }
@@ -210,7 +210,7 @@ function setting(){
 
 	default_secret=$(echo $(cat /proc/sys/kernel/random/uuid) | sed 's/.*\([a-z0-9]\{12\}\)$/\1/g')
 
-	read -p "Aria2 RPC 密钥:(字母或数字组合，不要含有特殊字符 默认 ${default_secret}):" secret
+	read -p "Aria2 RPC 密钥:(字母或数字组合, 不要含有特殊字符 默认 ${default_secret}):" secret
 	#如果Aria2密钥为空
 	if [ -z "${secret}" ]
 	then
@@ -247,7 +247,7 @@ function setting(){
 
 	default_user="ccaa"
 
-	read -p "filebrowser 用户名: 默认 ${default_user}):" filebrowserUser
+	read -p "filebrowser 用户名: (这是防止别人扫描的手段 建议自定义 默认 ${default_user})):" filebrowserUser
 	#如果filebrowser用户名为空
 	if [ -z "${filebrowserUser}" ]
 	then
@@ -292,9 +292,9 @@ function setting(){
 	echo '-------------------------------------------------------------'
 	echo -e "大功告成，请访问: ${green}http://${osip}:6080/#!/settings/rpc/set/ws/${osip}/6800/jsonrpc/${secret_base64url}${none}"
 	echo -e "File Browser 用户名:${green}${filebrowserUser}${none}"
-	echo -e "File Browser 密码:${green}admin${none}"
+	echo -e "File Browser 密码:${green}admin${none} (防止别人扫描 建议第一次登录后修改)"
 	echo -e "Aria2 RPC 密钥: ${green}${secret}${none}"
-	echo '帮助文档: https://dwz.ovh/ccaa （必看）'
+	echo '原版帮助文档: https://dwz.ovh/ccaa （必看）'
 	echo '-------------------------------------------------------------'
 }
 #清理工作
