@@ -3,6 +3,7 @@
 #####		Author:xiaoz.me			#####
 #####		Update:2020-02-27		#####
 #############################################################
+#####   use service                                     #####
 #####   优化: crazypeace                                #####
 #####   Github: https://github.com/crazypeace/ccaa      #####
 #############################################################
@@ -37,24 +38,22 @@ fi
 
 case $1 in
 	'start')
-		nohup sudo -u ccaa aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
-		nohup sudo -u ccaa /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
-		nohup sudo -u ccaa filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
+		service aria2 start
+		service ccaa_web start
+		service filebrowser start
 		exit
 	;;
 	'stop')
-		kill -9 ${aria2pid}
-		kill -9 ${ccaa_web_pid}
-		kill -9 ${filebrowser_pid}
+		service aria2 stop
+		service ccaa_web stop
+		service filebrowser stop
+		exit
 	;;
 	'restart')
-		kill -9 ${aria2pid}
-		kill -9 ${ccaa_web_pid}
-		kill -9 ${filebrowser_pid}
-		nohup sudo -u ccaa aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
-		nohup sudo -u ccaa /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
-		nohup sudo -u ccaa filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
-		exit;
+		service aria2 restart
+		service ccaa_web restart
+		service filebrowser restart
+		exit
 	;;
 	'status')
 		if [ "$aria2pid" == "" ]
@@ -66,7 +65,7 @@ case $1 in
 				echo "Aria2 is running,pid is ${aria2pid}."
 				echo "AriaNg is running,pid is ${ccaa_web_pid}."
 				echo "Filebrowser is running,pid is ${filebrowser_pid}."
-				echo '帮助文档: https://dwz.ovh/ccaa （必看）'
+				echo '原版帮助文档: https://dwz.ovh/ccaa （必看）'
 				echo '-----------------------------------------------'
 		fi
 	;;

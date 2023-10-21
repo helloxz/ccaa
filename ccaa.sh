@@ -8,6 +8,7 @@
 #####   improve ip detect                               #####
 #####   support IPv6                                    #####
 #####   use service                                     #####
+#####   choose bt-tracker source                        #####
 #####   优化: crazypeace                                #####
 #####   Github: https://github.com/crazypeace/ccaa      #####
 #############################################################
