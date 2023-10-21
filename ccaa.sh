@@ -267,7 +267,7 @@ function setting(){
 		filebrowserUser=$default_user
 	fi	
 	
-	#执行替换操作
+	#修改配置文件中的参数
 	mkdir -p ${downpath}
 	sed -i "s%dir=%dir=${downpath}%g" /etc/ccaa/aria2.conf
 	sed -i "s/rpc-secret=/rpc-secret=${secret}/g" /etc/ccaa/aria2.conf

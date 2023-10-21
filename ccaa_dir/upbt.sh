@@ -36,7 +36,7 @@ function up_tracker(){
 			;;
 	esac	   
 
-	wget -O /tmp/trackers_best.txt ${btTrackerSource}
+	wget --no-check-certificate -O /tmp/trackers_best.txt ${btTrackerSource}
 	tracker=$(cat /tmp/trackers_best.txt)
 	#替换处理bt-tracker
 	tracker="bt-tracker="${tracker}
