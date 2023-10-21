@@ -2,6 +2,10 @@
 #####		CCAA管理脚本			#####
 #####		Author:xiaoz.me			#####
 #####		Update:2020-02-27		#####
+#############################################################
+#####   优化: crazypeace                                #####
+#####   Github: https://github.com/crazypeace/ccaa      #####
+#############################################################
 
 #导入环境变量
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
