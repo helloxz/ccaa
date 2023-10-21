@@ -214,7 +214,7 @@ function setting(){
 	cd ./ccaa_tmp
 	echo
 	echo '-------------------------------------------------------------'
-	read -p "设置下载路径 (请填写绝对地址，默认/data/ccaaDown):" downpath
+	read -p "设置下载路径 (请填写绝对地址，默认${green}/data/ccaaDown${none}):" downpath
 	#如果下载路径为空，设置默认下载路径
 	if [ -z "${downpath}" ]
 	then
