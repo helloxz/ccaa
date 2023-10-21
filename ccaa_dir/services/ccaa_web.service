@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 User=ccaa
-ExecStart=/usr/bin/sudo -u ccaa /usr/sbin/ccaa_web
+ExecStart=/usr/sbin/ccaa_web
 Restart=on-failure
 
 [Install]
