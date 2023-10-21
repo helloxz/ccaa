@@ -223,7 +223,7 @@ function setting(){
 
 	default_secret=$(echo $(cat /proc/sys/kernel/random/uuid) | sed 's/.*\([a-z0-9]\{12\}\)$/\1/g')
 
-	read -p "Aria2 RPC 密钥:(字母或数字组合, 不要含有特殊字符 默认 ${default_secret}):" secret
+	read -p "Aria2 RPC 密钥:(字母或数字组合, 不要含有特殊字符 默认 ${green}${default_secret}${none}):" secret
 	#如果Aria2密钥为空
 	if [ -z "${secret}" ]
 	then
@@ -260,7 +260,7 @@ function setting(){
 
 	default_user="ccaa"
 
-	read -p "filebrowser 用户名: (这是防止别人扫描的手段 建议自定义 默认 ${default_user})):" filebrowserUser
+	read -p "filebrowser 用户名: (这是防止别人扫描的手段 建议自定义 默认 ${green}${default_user}${none})):" filebrowserUser
 	#如果filebrowser用户名为空
 	if [ -z "${filebrowserUser}" ]
 	then

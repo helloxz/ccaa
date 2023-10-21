@@ -8,6 +8,13 @@
 #####   Github: https://github.com/crazypeace/ccaa      #####
 #############################################################
 
+red='\e[91m'
+green='\e[92m'
+yellow='\e[93m'
+magenta='\e[95m'
+cyan='\e[96m'
+none='\e[0m'
+
 #导入环境变量
 PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/bin:/sbin
 export PATH
@@ -17,8 +24,8 @@ function up_tracker(){
 	#P3TERX的bt-tracker https://trackers.p3terx.com/all_aria2.txt
 	echo 
 	echo '--- 选择bt-tracker来源 ---'
-	echo 'p: P3TERX https://trackers.p3terx.com/all_aria2.txt'
-	echo 'x: xiaoz https://api.xiaoz.org/trackerslist/'
+	echo -e "${magenta}p${none}: P3TERX https://trackers.p3terx.com/all_aria2.txt"
+	echo -e "${magenta}x${none}: xiaoz https://api.xiaoz.org/trackerslist/"
 	read -p "选择bt-tracker来源, 回车默认使用xiaoz的:" btTrackerChoice
 	case $btTrackerChoice in
 		p)
