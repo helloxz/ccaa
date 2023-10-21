@@ -10,6 +10,15 @@ export PATH
 function up_tracker(){
 	#下载最新的bt-tracker
 	#P3TERX的bt-tracker https://trackers.p3terx.com/all_aria2.txt
+	echo '选择bt-tracker来源'
+	echo 'p: P3TERX https://trackers.p3terx.com/all_aria2.txt'
+	echo 'x: xiaoz https://api.xiaoz.org/trackerslist/'
+	read -p "选择bt-tracker来源, 回车默认使用xiaoz的:" btTrackerSource
+	case $btTrackerSource in
+		*)
+	esac
+	   
+
 	wget -O /tmp/trackers_best.txt https://api.xiaoz.org/trackerslist/
 	tracker=$(cat /tmp/trackers_best.txt)
 	#替换处理bt-tracker

@@ -3,9 +3,13 @@
 #####	作者: xiaoz.me		更新时间: 2020-02-27	#####
 #############################################################
 #####   remove cdn option                               #####
-#####   support IPv4 or IPv6                            #####
 #####   add default_secret                              #####
-#####   crazypeace                                      #####
+#####   improve status display                          #####
+#####   improve ip detect                               #####
+#####   support IPv6                                    #####
+#####   use service                                     #####
+#####   优化: crazypeace                                #####
+#####   Github: https://github.com/crazypeace/ccaa      #####
 #############################################################
 
 
@@ -195,13 +199,21 @@ function add_service() {
 	fi
 }
 
+#启动服务
+function start_service() {
+	file_list=$(ls /etc/ccaa/services)
+	for file in $file_list; do
+	  systemctl start $file
+	done
+}
+
 #设置账号密码
 function setting(){
 	cd
 	cd ./ccaa_tmp
 	echo
 	echo '-------------------------------------------------------------'
-	read -p "设置下载路径（请填写绝对地址，默认/data/ccaaDown）:" downpath
+	read -p "设置下载路径 (请填写绝对地址，默认/data/ccaaDown):" downpath
 	#如果下载路径为空，设置默认下载路径
 	if [ -z "${downpath}" ]
 	then
@@ -272,21 +284,15 @@ function setting(){
 	cp ccaa-master/ccaa_web /usr/sbin/
 	chmod +x /usr/sbin/ccaa_web
 
-	#启动服务
-	#nohup sudo -u ccaa aria2c --conf-path=/etc/ccaa/aria2.conf > /var/log/aria2.log 2>&1 &
-	service aria2 start
-	#nohup caddy -conf="/etc/ccaa/caddy.conf" > /etc/ccaa/caddy.log 2>&1 &
-	#nohup sudo -u ccaa /usr/sbin/ccaa_web > /var/log/ccaa_web.log 2>&1 &
-	service ccaa_web start
-	#nohup sudo -u ccaa filebrowser -c /etc/ccaa/config.json > /var/log/fbrun.log 2>&1 &
- 	service filebrowser start
-
 	#重置权限
 	chown -R ccaa:ccaa /etc/ccaa/
 	chown -R ccaa:ccaa ${downpath}
 
 	#注册服务
 	add_service
+
+	#启动服务
+	start_service
 
 	echo
 	echo '-------------------------------------------------------------'
