@@ -214,7 +214,7 @@ function setting(){
 	cd ./ccaa_tmp
 	echo
 	echo '-------------------------------------------------------------'
-	read -p "设置下载路径 (请填写绝对地址，默认${green}/data/ccaaDown${none}):" downpath
+	read -p "$(echo -e "设置下载路径 (请填写绝对地址，默认${green}/data/ccaaDown${none}): ")" downpath
 	#如果下载路径为空，设置默认下载路径
 	if [ -z "${downpath}" ]
 	then
@@ -223,7 +223,7 @@ function setting(){
 
 	default_secret=$(echo $(cat /proc/sys/kernel/random/uuid) | sed 's/.*\([a-z0-9]\{12\}\)$/\1/g')
 
-	read -p "Aria2 RPC 密钥:(字母或数字组合, 不要含有特殊字符 默认 ${green}${default_secret}${none}):" secret
+	read -p "$(echo -e "Aria2 RPC 密钥:(字母或数字组合, 不要含有特殊字符 默认 ${green}${default_secret}${none}): ")" secret
 	#如果Aria2密钥为空
 	if [ -z "${secret}" ]
 	then
@@ -235,7 +235,7 @@ function setting(){
 	#获取ip
 	echo -e "如果你的小鸡是${magenta}双栈(同时有IPv4和IPv6的IP)${none}，请选择你准备用哪个'网口'"
 	echo "如果你不懂这段话是什么意思, 请直接回车"
-	read -p "$(echo -e "Input ${cyan}4${none} for IPv4, ${cyan}6${none} for IPv6:") " netstack
+	read -p "$(echo -e "Input ${cyan}4${none} for IPv4, ${cyan}6${none} for IPv6: ")" netstack
 	if [[ $netstack = "4" ]]; then
 		osip=$(curl -4s https://www.cloudflare.com/cdn-cgi/trace | grep ip= | sed -e "s/ip=//g")
 	elif [[ $netstack = "6" ]]; then 
@@ -260,7 +260,7 @@ function setting(){
 
 	default_user="ccaa"
 
-	read -p "filebrowser 用户名: (这是防止别人扫描的手段 建议自定义 默认 ${green}${default_user}${none})):" filebrowserUser
+	read -p "$(echo -e "filebrowser 用户名: (这是防止别人扫描的手段 建议自定义 默认 ${green}${default_user}${none}): ")" filebrowserUser
 	#如果filebrowser用户名为空
 	if [ -z "${filebrowserUser}" ]
 	then
