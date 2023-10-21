@@ -37,6 +37,9 @@ function del_post() {
 }
 
 #停止所有服务
+service aria2 stop
+service ccaa_web stop
+service filebrowser stop
 kill -9 $(pgrep 'aria2c')
 kill -9 $(pgrep 'ccaa_web')
 kill -9 $(pgrep 'filebrowser')
