@@ -48,7 +48,7 @@ else
 fi
 
 aria2_url='https://github.com/q3aql/aria2-static-builds/releases/download/v1.36.0/aria2-1.36.0-linux-gnu-64bit-build1.tar.bz2'
-filebrowser_url='https://github.com/filebrowser/filebrowser/releases/download/v2.25.0/linux-amd64-filebrowser.tar.gz'
+filebrowser_url='https://github.com/filebrowser/filebrowser/releases/download/v2.26.0/linux-amd64-filebrowser.tar.gz'
 master_url='https://github.com/crazypeace/ccaa/archive/master.zip'
 
 #安装前的检查
