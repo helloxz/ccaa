@@ -68,5 +68,6 @@ yum -y install curl
 * ccaa -v:查看CCAA版本
 
 ### 注意 本脚本使用的不是官方的 Aria2
-而是一个编译的成品. Github 上面的版本只更新到 v1.36.0 (也就是本脚本使用的). 后续新版本(v1.37.0及以后)移到Gitlab上面了.
+而是一个编译的成品. Github 上面的版本只更新到 v1.36.0 后续新版本(v1.37.0及以后)转到Gitlab上面了.
 https://gitlab.com/q3aql/aria2-static-builds/
+我搬了一个到本Repo, 脚本里使用的也是本Repo的url.
