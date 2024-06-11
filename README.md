@@ -21,6 +21,9 @@ https://github.com/crazypeace/aria2_auto_rclone
 
 [![Stargazers over time](https://starchart.cc/crazypeace/ccaa.svg)](https://starchart.cc/crazypeace/ccaa)
 
+<details>
+    <summary>原项目readme (点击展开)</summary>
+
 # CCAA
 
 原为`CentOS + Caddy + AriaNg + Aria2`，故命名为CCAA，不过现在不仅仅支持CentOS，主流的Debian、Ubuntu也已经支持，自2.0版本已移除Caddy，改用Golang写了一个简单的webserver来运行AriaNg
@@ -71,3 +74,5 @@ yum -y install curl
 而是一个编译的成品. Github 上面的版本只更新到 v1.36.0 后续新版本(v1.37.0及以后)转到Gitlab上面了.
 https://gitlab.com/q3aql/aria2-static-builds/
 我搬了一个到本Repo, 脚本里使用的也是本Repo的url.
+
+</details>
