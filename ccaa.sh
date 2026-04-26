@@ -302,7 +302,7 @@ function setting(){
 	echo -e "大功告成，请访问: ${green}http://${osip}:6080/#!/settings/rpc/set/ws/${osip}/6800/jsonrpc/${secret_base64url}${none}"
 	echo "大功告成，请访问: http://${osip}:6080/#!/settings/rpc/set/ws/${osip}/6800/jsonrpc/${secret_base64url}" >> ~/_ccaa_info_
 	echo -e "File Browser 用户名:${green}${filebrowserUser}${none}"
-	ehco "File Browser 用户名:${filebrowserUser}" >> ~/_ccaa_info_
+	echo "File Browser 用户名:${filebrowserUser}" >> ~/_ccaa_info_
 	echo -e "File Browser 密码:${green}admin${none} (防止别人扫描 建议第一次登录后修改)"
 	echo "File Browser 密码:admin (防止别人扫描 建议第一次登录后修改)" >> ~/_ccaa_info_
 	echo -e "Aria2 RPC 密钥: ${green}${secret}${none}"
